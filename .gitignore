@@ -137,3 +137,28 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Local-only notes (session summaries, scratchpads — never pushed)
+.notes/
+
+# macOS metadata
+.DS_Store
+
+# IDE / editor local state
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Secrets, certs, credentials (belt-and-suspenders on top of .env rules above)
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+secrets/
+credentials*.json
+
+# Local agent / editor session state
+.claude/
