@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { skillGroups } from "@/data/skills";
 
 type Experience = {
   role: string;
@@ -38,13 +38,6 @@ const experience: Experience[] = [
   },
 ];
 
-const skillGroups = [
-  { label: "Languages", items: ["Python", "Java", "C++", "TypeScript", "JavaScript", "SQL"] },
-  { label: "Testing & Automation", items: ["Playwright", "Cypress", "Selenium", "Postman"] },
-  { label: "Systems & Infra", items: ["Linux", "CI/CD", "GitHub Actions", "Distributed systems debugging"] },
-  { label: "Cloud & Databases", items: ["AWS", "Azure", "PostgreSQL", "MySQL"] },
-];
-
 const education = [
   {
     degree: "M.S. Computer Science",
@@ -60,63 +53,93 @@ const education = [
   },
 ];
 
+function SectionDivider() {
+  return (
+    <hr
+      className="my-12"
+      style={{ borderColor: "var(--color-border)" }}
+    />
+  );
+}
+
 export default function AboutPage() {
   return (
     <>
       <h1 className="text-3xl font-semibold tracking-tight">About</h1>
       <p className="mt-4 text-[var(--color-text-secondary)]">
         I&apos;m a software engineer based in Woodland Hills, California. My professional work
-        lives at the intersection of product code and the systems that keep it reliable —
+        lives at the intersection of product code and the systems that keep it reliable,
         test automation, CI/CD, and backend validation for distributed services. I&apos;m
         extending that foundation into fullstack product engineering through my graduate
         studies at Georgia Tech.
       </p>
 
-      <section className="mt-12">
-        <h2 className="text-lg font-medium">Experience</h2>
-        <div className="mt-4 space-y-4">
-          {experience.map((e) => (
-            <Card key={e.company}>
+      <SectionDivider />
+
+      <section>
+        <h2 className="text-xl font-semibold tracking-tight">Experience</h2>
+        <div className="mt-6 space-y-10">
+          {experience.map((e, i) => (
+            <div key={e.company}>
+              {i > 0 ? (
+                <hr
+                  className="mb-10"
+                  style={{ borderColor: "var(--color-border)" }}
+                />
+              ) : null}
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <div>
-                  <div className="font-medium text-[var(--color-text-primary)]">{e.role}</div>
+                  <div className="font-medium text-[var(--color-text-primary)]">
+                    {e.role}
+                  </div>
                   <div className="text-sm text-[var(--color-text-secondary)]">
                     {e.company} · {e.location}
                   </div>
                 </div>
-                <span className="font-mono text-xs text-[var(--color-text-muted)]">{e.period}</span>
+                <span className="font-mono text-xs text-[var(--color-text-muted)]">
+                  {e.period}
+                </span>
               </div>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-[var(--color-text-secondary)]">
+              <ul className="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
                 {e.bullets.map((b) => (
-                  <li key={b}>{b}</li>
+                  <li key={b}>
+                    <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+                    {b}
+                  </li>
                 ))}
               </ul>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="mt-12">
-        <h2 className="text-lg font-medium">Education</h2>
-        <div className="mt-4 space-y-4">
+      <SectionDivider />
+
+      <section>
+        <h2 className="text-xl font-semibold tracking-tight">Education</h2>
+        <div className="mt-6 space-y-6">
           {education.map((e) => (
-            <Card key={e.school}>
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <div>
-                  <div className="font-medium text-[var(--color-text-primary)]">{e.degree}</div>
-                  <div className="text-sm text-[var(--color-text-secondary)]">{e.school}</div>
-                  <div className="text-sm text-[var(--color-text-muted)]">{e.detail}</div>
+            <div key={e.school} className="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <div className="font-medium text-[var(--color-text-primary)]">
+                  {e.degree}
                 </div>
-                <span className="font-mono text-xs text-[var(--color-text-muted)]">{e.period}</span>
+                <div className="text-sm text-[var(--color-text-secondary)]">{e.school}</div>
+                <div className="text-sm text-[var(--color-text-muted)]">{e.detail}</div>
               </div>
-            </Card>
+              <span className="font-mono text-xs text-[var(--color-text-muted)]">
+                {e.period}
+              </span>
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="mt-12">
-        <h2 className="text-lg font-medium">Skills</h2>
-        <div className="mt-4 space-y-4">
+      <SectionDivider />
+
+      <section>
+        <h2 className="text-xl font-semibold tracking-tight">Skills</h2>
+        <div className="mt-6 space-y-5">
           {skillGroups.map((g) => (
             <div key={g.label}>
               <div className="text-xs uppercase tracking-wide text-[var(--color-text-muted)]">

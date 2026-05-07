@@ -36,7 +36,7 @@ export default function MobileNav({ links }: { links: NavLink[] }) {
 
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-[var(--color-base)]/80 backdrop-blur-sm transition-opacity",
+          "fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-opacity",
           open ? "opacity-100" : "pointer-events-none opacity-0"
         )}
         onClick={() => setOpen(false)}
@@ -47,7 +47,7 @@ export default function MobileNav({ links }: { links: NavLink[] }) {
         role="dialog"
         aria-modal="true"
         className={cn(
-          "fixed right-0 top-0 z-50 flex h-full w-72 max-w-[85%] flex-col border-l border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-xl transition-transform",
+          "fixed right-0 top-0 z-50 flex h-full w-72 max-w-[85%] flex-col border-l border-[var(--color-border)] bg-[var(--color-base)] p-6 shadow-xl transition-transform",
           open ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -68,7 +68,7 @@ export default function MobileNav({ links }: { links: NavLink[] }) {
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2 text-base text-[var(--color-text-primary)] hover:bg-[var(--color-card)]"
+              className="rounded-md px-3 py-2 text-base text-[var(--color-text-primary)] hover:bg-black/5"
             >
               {label}
             </Link>

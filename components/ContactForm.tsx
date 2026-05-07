@@ -107,7 +107,7 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
           <span className="text-sm text-[var(--color-accent)]">Message sent. Thanks!</span>
         ) : null}
         {status.kind === "error" ? (
-          <span className="text-sm text-red-400">{status.message}</span>
+          <span className="text-sm text-red-600">{status.message}</span>
         ) : null}
       </div>
     </form>

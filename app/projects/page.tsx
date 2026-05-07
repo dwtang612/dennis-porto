@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { projects } from "@/data/projects";
 
 export default function ProjectsPage() {
@@ -13,38 +11,42 @@ export default function ProjectsPage() {
         and what shipped. More coming as the portfolio grows.
       </p>
 
-      <div className="mt-10 grid gap-4">
-        {projects.map((p) => (
-          <Link key={p.slug} href={`/projects/${p.slug}`} className="block">
-            <Card className="transition-colors hover:border-[var(--color-accent)]">
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <CardTitle>{p.title}</CardTitle>
-                    <Badge variant="outline">{p.year}</Badge>
-                    {p.status === "case-study-in-progress" ? (
-                      <Badge variant="accent">Case study in progress</Badge>
-                    ) : null}
-                  </div>
-                  <p className="mt-1 text-xs uppercase tracking-wide text-[var(--color-text-muted)]">
-                    {p.role}
-                  </p>
-                  <CardDescription className="mt-3">{p.summary}</CardDescription>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.stack.slice(0, 6).map((tag) => (
-                      <Badge key={tag}>{tag}</Badge>
-                    ))}
-                  </div>
-                </div>
-                <ArrowRight
-                  size={18}
-                  className="mt-1 shrink-0 text-[var(--color-text-muted)]"
-                />
-              </div>
-            </Card>
-          </Link>
+      <ul className="mt-12 space-y-10">
+        {projects.map((p, i) => (
+          <li key={p.slug}>
+            {i > 0 ? (
+              <hr
+                className="mb-10"
+                style={{ borderColor: "var(--color-border)" }}
+              />
+            ) : null}
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span aria-hidden className="text-[var(--color-text-muted)]">»</span>
+              <Link
+                href={`/projects/${p.slug}`}
+                className="text-lg font-medium text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+              >
+                {p.title}
+              </Link>
+              <span className="font-mono text-xs text-[var(--color-text-muted)]">
+                {p.year}
+              </span>
+              {p.status === "case-study-in-progress" ? (
+                <Badge variant="accent">Case study in progress</Badge>
+              ) : null}
+            </div>
+            <p className="mt-1 pl-6 text-xs uppercase tracking-wide text-[var(--color-text-muted)]">
+              {p.role}
+            </p>
+            <p className="mt-3 pl-6 text-[var(--color-text-secondary)]">{p.summary}</p>
+            <div className="mt-4 flex flex-wrap gap-2 pl-6">
+              {p.stack.slice(0, 6).map((tag) => (
+                <Badge key={tag}>{tag}</Badge>
+              ))}
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 }

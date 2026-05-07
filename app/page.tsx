@@ -1,85 +1,113 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import Socials from "@/components/Socials";
 import { projects } from "@/data/projects";
+import { allSkills } from "@/data/skills";
+
+function SectionDivider() {
+  return (
+    <hr
+      className="my-12"
+      style={{ borderColor: "var(--color-border)" }}
+    />
+  );
+}
+
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-xl font-semibold tracking-tight text-[var(--color-text-primary)]">
+      {children}
+    </h2>
+  );
+}
 
 export default function HomePage() {
-  const featured = projects.slice(0, 2);
-
   return (
     <>
-      <section className="pt-4">
+      <section>
         <Badge variant="accent">Open to fullstack roles · 2026</Badge>
         <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-          Fullstack Engineer
+          Hi, I&apos;m Dennis.
         </h1>
-        <p className="mt-5 max-w-xl text-[var(--color-text-secondary)]">
-          I&apos;m Dennis — a software engineer with a background in test automation,
-          CI/CD, and backend reliability. I ship TypeScript-heavy systems at OPTRO,
-          cut my teeth on Linux and HL7 integrations at Abbott, and I&apos;m currently
-          pursuing an MS in Computer Science at Georgia Tech with a focus on
-          computational perception and robotics.
+        <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+          Woodland Hills, California
+        </p>
+        <p className="mt-6 text-[var(--color-text-secondary)]">
+          I&apos;m a software engineer with a background in test automation, CI/CD, and
+          backend reliability. I ship <strong className="text-[var(--color-text-primary)]">TypeScript</strong>-heavy
+          systems at <strong className="text-[var(--color-text-primary)]">OPTRO</strong>, cut my teeth on{" "}
+          <strong className="text-[var(--color-text-primary)]">Linux and HL7</strong> integrations at{" "}
+          <strong className="text-[var(--color-text-primary)]">Abbott</strong>, and I&apos;m currently pursuing an
+          MS in Computer Science at <strong className="text-[var(--color-text-primary)]">Georgia Tech</strong>{" "}
+          with a focus on computational perception and robotics.
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button asChild>
-            <Link href="/projects">
-              View Projects
-              <ArrowRight size={16} />
-            </Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/contact">Get in touch</Link>
-          </Button>
+        <div className="mt-6">
+          <Socials size={20} />
         </div>
       </section>
 
-      <section className="mt-20">
-        <div className="flex items-baseline justify-between">
-          <h2 className="text-xl font-medium">Featured work</h2>
-          <Link
-            href="/projects"
-            className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)]"
-          >
-            All projects →
-          </Link>
-        </div>
+      <SectionDivider />
 
-        <div className="mt-6 grid gap-4">
-          {featured.map((p) => (
-            <Link key={p.slug} href={`/projects/${p.slug}`} className="block">
-              <Card className="transition-colors hover:border-[var(--color-accent)]">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <CardTitle>{p.title}</CardTitle>
-                      <Badge variant="outline">{p.year}</Badge>
-                    </div>
-                    <p className="mt-1 text-xs uppercase tracking-wide text-[var(--color-text-muted)]">
-                      {p.role}
-                    </p>
-                    <CardDescription className="mt-3">{p.summary}</CardDescription>
-                    {p.metrics && p.metrics.length > 0 ? (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {p.metrics.map((m) => (
-                          <Badge key={m} variant="accent">
-                            {m}
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                  <ArrowRight
-                    size={18}
-                    className="mt-1 shrink-0 text-[var(--color-text-muted)]"
-                  />
-                </div>
-              </Card>
-            </Link>
+      <section>
+        <SectionHeading>Technologies</SectionHeading>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {allSkills.map((s) => (
+            <Badge key={s}>{s}</Badge>
           ))}
         </div>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <SectionHeading>Projects</SectionHeading>
+        <ul className="mt-4 space-y-2">
+          {projects.map((p) => (
+            <li key={p.slug} className="text-[var(--color-text-secondary)]">
+              <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+              <Link
+                href={`/projects/${p.slug}`}
+                className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+              >
+                {p.title}
+              </Link>
+              <span className="ml-2 text-[var(--color-text-muted)]">— {p.year}</span>
+            </li>
+          ))}
+        </ul>
+        <Link
+          href="/projects"
+          className="mt-6 inline-block text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+        >
+          All projects →
+        </Link>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <SectionHeading>Blog</SectionHeading>
+        <p className="mt-4 italic text-[var(--color-text-muted)]">Coming soon.</p>
+      </section>
+
+      <SectionDivider />
+
+      <section>
+        <SectionHeading>Contact</SectionHeading>
+        <p className="mt-4 text-[var(--color-text-secondary)]">
+          Open to fullstack roles, collaboration, or a good conversation about reliable
+          systems.
+        </p>
+        <p className="mt-4">
+          <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+          <Link
+            href="/contact"
+            className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+          >
+            Send a message
+          </Link>
+        </p>
       </section>
     </>
   );
