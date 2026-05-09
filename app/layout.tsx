@@ -52,10 +52,10 @@ export default function RootLayout({
             {
               "--frame": "clamp(8px, 2vw, 20px)",
               background: [
-                "linear-gradient(to bottom, #6b7280, transparent) top / 100% var(--frame) no-repeat",
-                "linear-gradient(to top, #6b7280, transparent) bottom / 100% var(--frame) no-repeat",
-                "linear-gradient(to right, #6b7280, transparent) left / var(--frame) 100% no-repeat",
-                "linear-gradient(to left, #6b7280, transparent) right / var(--frame) 100% no-repeat",
+                "linear-gradient(to bottom, #8a7d65, transparent) top / 100% var(--frame) no-repeat",
+                "linear-gradient(to top, #8a7d65, transparent) bottom / 100% var(--frame) no-repeat",
+                "linear-gradient(to right, #8a7d65, transparent) left / var(--frame) 100% no-repeat",
+                "linear-gradient(to left, #8a7d65, transparent) right / var(--frame) 100% no-repeat",
               ].join(", "),
             } as React.CSSProperties
           }

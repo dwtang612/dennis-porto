@@ -2,17 +2,12 @@ import Link from "next/link";
 import { Locate } from "lucide-react";
 import Socials from "@/components/Socials";
 import { TechCard } from "@/components/TechCard";
+import { ParticleBackground } from "@/components/ParticleBackground";
 import ContactForm from "@/components/ContactForm";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
 import { homeTechnologies } from "@/data/skills";
 import { isMongoConfigured } from "@/lib/mongodb";
-
-function SectionDivider() {
-  return (
-    <hr className="my-12" style={{ borderColor: "var(--color-border)" }} />
-  );
-}
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
@@ -28,23 +23,40 @@ export default function HomePage() {
   return (
     <>
       {/*
-       * Hero is sticky at top of viewport: it pins in place while sections
-       * below (z-10, opaque background) scroll up and progressively cover
-       * it. The hero feels like the "main window" you described — it stays
-       * put; Technologies and the rest slide over the top of it.
+       * Particle background. The component owns its own positioning
+       * and renders TWO layers internally:
+       *   - particles canvas at z-0 (behind section cards)
+       *   - black-hole canvas + drag handle at z-30 (above section
+       *     cards, so the BH stays crisp instead of being washed out
+       *     by the translucent cream cards when overlapping them)
+       * Both layers are fixed to the viewport and inset by the same
+       * `clamp()` formula the layout's vignette frame uses.
        *
-       * `-mt-16` cancels the parent <main>'s `py-16` so the hero starts
-       * flush with the bottom of the header instead of inside the padding.
+       * Only mounted on / — when the user navigates to /journey,
+       * /projects, etc. this component unmounts so other pages have
+       * a clean background.
        */}
-      <section className="hero-fade-on-scroll sticky top-0 z-0 -mt-32 flex min-h-screen flex-col justify-center">
+      <ParticleBackground />
+
+      {/*
+       * Hero is sticky at top of viewport (z-10, above particle bg).
+       * Sections below (z-20, opaque background) scroll up and
+       * progressively cover both the hero AND the particle field.
+       *
+       * `-mt-32` cancels the parent <main>'s `pt-32` so the hero starts
+       * flush with the bottom of the (now removed) header instead of
+       * inside the padding.
+       */}
+      <section className="hero-fade-on-scroll sticky top-0 z-10 -mt-32 flex min-h-screen flex-col justify-center">
         {/*
-         * Hero prose constrained to 75% of the column width: the left edge
-         * stays anchored to the page's left content edge, and the right
-         * edge pulls in by 25% so there's intentional whitespace on the
-         * right. The Socials row below is intentionally OUTSIDE this
-         * wrapper so the icons can sit on the page's full content width.
+         * Hero prose constrained to 75% of the column width with an opaque
+         * page-color background, padding, and rounded corners. The white
+         * fill creates a "block of clarity" that occludes the particle
+         * field behind it — particles still drift below this layer (z-0
+         * vs section's z-10), so visually you see them flow around the
+         * outside of this rectangle.
          */}
-        <div className="max-w-[75%]">
+        <div className="max-w-[75%] rounded-3xl bg-[var(--color-base-translucent)] p-4">
           <h1 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
             Hi, I&apos;m Dennis.
           </h1>
@@ -74,20 +86,21 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-8 w-fit rounded-full bg-[var(--color-base-translucent)] px-4 py-3">
           <Socials size={32} />
         </div>
       </section>
 
       {/*
-       * Sections below the hero render OVER it. They have their own
-       * background color (matching the page) so the hero is hidden behind
-       * them as they scroll up over the top of the sticky hero.
+       * Sections below the hero render OVER the hero (z-10) but the
+       * wrapper itself is TRANSPARENT, so the particle field (z-0) shows
+       * through the gaps between sections. Each <section> is its own
+       * opaque "card" (white fill, rounded corners, padding) — content
+       * stays fully readable while the particles continue to drift in
+       * the spaces between cards as the user scrolls down the page.
        */}
-      <div className="relative z-10 bg-[var(--color-base)]">
-      <SectionDivider />
-
-      <section>
+      <div className="relative z-20 space-y-12">
+      <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
         <SectionHeading>Technologies</SectionHeading>
         <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
           {homeTechnologies.map((t) => (
@@ -96,9 +109,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <SectionDivider />
-
-      <section>
+      <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
         <SectionHeading>Projects</SectionHeading>
         <ul className="mt-4 space-y-4">
           {projects.map((p) => (
@@ -137,9 +148,7 @@ export default function HomePage() {
         </AnimatedArrowLink>
       </section>
 
-      <SectionDivider />
-
-      <section>
+      <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
         <SectionHeading>Experiments</SectionHeading>
         <ul className="mt-4 space-y-4">
           <li className="group">
@@ -167,9 +176,10 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <SectionDivider />
-
-      <section id="contact">
+      <section
+        id="contact"
+        className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8"
+      >
         <SectionHeading>Contact</SectionHeading>
         <ContactForm enabled={formEnabled} />
       </section>

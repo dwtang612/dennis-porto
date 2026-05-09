@@ -1,16 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --color-base: #ffffff;
-  --color-surface: #fafafa;
-  --color-card: #ffffff;
-  --color-border: #e5e7eb;
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #6b7280;
-  --color-accent: #1d4ed8;
+  /*
+   * Newsprint palette. The page reads like a sheet of pulp newspaper
+   * rather than fresh printer paper — grayer, less yellow, with the
+   * faintly chalky cast that comes from low-grade recycled fiber. Hue
+   * is a hair warm so it doesn't drift into "concrete," but the gray
+   * dominates the warmth, which is what separates newspaper from
+   * stationery cream.
+   *
+   * Text and borders stay warm so cool slate doesn't pick up a blue
+   * cast against the warm-gray paper. Accent moves a step deeper in
+   * the blue family so it reads confidently as ink rather than
+   * vibrating against the muted ground.
+   */
+  --color-base: #e2ddc9;
+  --color-surface: #d8d2bd;
+  --color-card: #e2ddc9;
+  --color-border: #c2bba3;
+  --color-text-primary: #1a1612;
+  --color-text-secondary: #4a4032;
+  --color-text-muted: #6e6452;
+  --color-accent: #1e3a8a;
   --color-accent-hover: #1e40af;
-  --color-accent-subtle: #dbeafe;
+  --color-accent-subtle: #cdc6ae;
+
+  /*
+   * Translucent newsprint, used by every "floating block" on the home
+   * page (hero copy, socials pill, and the four section cards).
+   * Resolves to the page color at 55% opacity so the particle field
+   * underneath stays partially visible through the blocks. One source
+   * of truth — bump the percentage here to make the cards more
+   * transparent across the entire page in one shot.
+   */
+  --color-base-translucent: color-mix(in oklab, var(--color-base) 55%, transparent);
 }
 
 @theme inline {
