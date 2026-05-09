@@ -47,7 +47,9 @@ export function ParticleCanvas() {
       const h = canvas.clientHeight;
 
       ctx.clearRect(0, 0, w, h);
-      ctx.fillStyle = "#ec4899";
+      // Slate-900 dots — match the page's text color so the canvas reads as
+      // "more of the page" rather than a foreign element.
+      ctx.fillStyle = "#0f172a";
 
       for (const p of particles) {
         p.x += p.vx;
@@ -73,5 +75,10 @@ export function ParticleCanvas() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="h-64 w-full rounded-md bg-black" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="h-80 w-full rounded-md border border-[var(--color-border)] bg-[var(--color-surface)]"
+    />
+  );
 }

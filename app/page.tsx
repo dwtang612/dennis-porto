@@ -111,6 +111,29 @@ export default function HomePage() {
       <SectionDivider />
 
       <section>
+        <SectionHeading>Experiments</SectionHeading>
+        <ul className="mt-4 space-y-4">
+          <li>
+            <div>
+              <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+              <Link
+                href="/experiments/particles"
+                className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+              >
+                Particles
+              </Link>
+              <span className="ml-2 text-[var(--color-text-muted)]">· 2026</span>
+            </div>
+            <p className="ml-6 text-sm text-[var(--color-text-secondary)]">
+              An 800-particle vanilla-canvas swarm in ~80 lines of TypeScript.
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <SectionDivider />
+
+      <section>
         <SectionHeading>Contact</SectionHeading>
         <p className="mt-4 text-[var(--color-text-secondary)]">
           If you would like to get in touch, feel free to leave a message.
