@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { AnimatedArrow } from "@/components/AnimatedArrow";
 
 type Props = {
   href: string;
@@ -9,17 +10,18 @@ type Props = {
 };
 
 /**
- * A link with a custom inline-SVG arrow that animates on hover.
+ * A link with the shared `AnimatedArrow` paired to its text. For the
+ * common case where the WHOLE row is the link ("All projects", "Back
+ * home"). When the link is just one piece of a larger row (e.g. a
+ * project list item with year + tagline alongside the title), drop
+ * `AnimatedArrow` into the row directly and mark the parent as
+ * `group` so the hover animation still triggers.
  *
  * Resting state: a short line + arrowhead.
  * Hover state:   the line scales horizontally outward (origin-anchored),
  *                and the arrowhead translates further in the link's
  *                direction. Together: the arrow "reaches" toward its
  *                destination.
- *
- * `direction="backward"` flips the entire SVG horizontally via
- * `-scale-x-100`, which also reverses the inner transforms in screen
- * space, so a back arrow stretches and translates toward the LEFT.
  */
 export function AnimatedArrowLink({
   href,
@@ -27,43 +29,16 @@ export function AnimatedArrowLink({
   direction = "forward",
   className = "",
 }: Props) {
-  const arrow = (
-    <svg
-      width="22"
-      height="12"
-      viewBox="0 0 22 12"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.25"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={`shrink-0 overflow-visible ${
-        direction === "backward" ? "-scale-x-100" : ""
-      }`}
-    >
-      <line
-        x1="2"
-        y1="6"
-        x2="12"
-        y2="6"
-        className="origin-left transition-transform duration-300 ease-out group-hover:scale-x-150"
-      />
-      <polyline
-        points="12,3 16,6 12,9"
-        className="transition-transform duration-300 ease-out group-hover:translate-x-1"
-      />
-    </svg>
-  );
-
   return (
     <Link
       href={href}
       className={`group inline-flex items-center gap-2 ${className}`}
     >
-      {direction === "backward" ? arrow : null}
+      {direction === "backward" ? (
+        <AnimatedArrow direction="backward" />
+      ) : null}
       <span>{children}</span>
-      {direction === "forward" ? arrow : null}
+      {direction === "forward" ? <AnimatedArrow direction="forward" /> : null}
     </Link>
   );
 }

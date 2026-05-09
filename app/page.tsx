@@ -5,6 +5,7 @@ import { TechCard } from "@/components/TechCard";
 import { ParticleBackground } from "@/components/ParticleBackground";
 import ContactForm from "@/components/ContactForm";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
+import { AnimatedArrow } from "@/components/AnimatedArrow";
 import { projects } from "@/data/projects";
 import { homeTechnologies } from "@/data/skills";
 import { isMongoConfigured } from "@/lib/mongodb";
@@ -114,25 +115,20 @@ export default function HomePage() {
         <ul className="mt-4 space-y-4">
           {projects.map((p) => (
             <li key={p.slug} className="group">
-              <div>
-                <span
-                  aria-hidden
-                  className="mr-2 inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
-                >
-                  →
-                </span>
+              <div className="inline-flex items-center gap-2">
+                <AnimatedArrow className="text-[var(--color-text-muted)]" />
                 <Link
                   href={`/projects/${p.slug}`}
                   className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
                 >
                   {p.title}
                 </Link>
-                <span className="ml-2 text-[var(--color-text-muted)]">
+                <span className="text-[var(--color-text-muted)]">
                   · {p.year}
                 </span>
               </div>
               {p.tagline ? (
-                <p className="ml-6 text-sm text-[var(--color-text-secondary)]">
+                <p className="ml-8 text-sm text-[var(--color-text-secondary)]">
                   {p.tagline}
                 </p>
               ) : null}
@@ -152,24 +148,19 @@ export default function HomePage() {
         <SectionHeading>Experiments</SectionHeading>
         <ul className="mt-4 space-y-4">
           <li className="group">
-            <div>
-              <span
-                aria-hidden
-                className="mr-2 inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
-              >
-                →
-              </span>
+            <div className="inline-flex items-center gap-2">
+              <AnimatedArrow className="text-[var(--color-text-muted)]" />
               <Link
                 href="/experiments/particles"
                 className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
               >
                 Particles
               </Link>
-              <span className="ml-2 text-[var(--color-text-muted)]">
+              <span className="text-[var(--color-text-muted)]">
                 · 2026
               </span>
             </div>
-            <p className="ml-6 text-sm text-[var(--color-text-secondary)]">
+            <p className="ml-8 text-sm text-[var(--color-text-secondary)]">
               An 800-particle vanilla-canvas swarm in ~80 lines of TypeScript.
             </p>
           </li>

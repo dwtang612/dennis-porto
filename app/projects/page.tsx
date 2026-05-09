@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
+import { AnimatedArrow } from "@/components/AnimatedArrow";
 import { projects } from "@/data/projects";
 
 export default function ProjectsPage() {
@@ -28,13 +29,8 @@ export default function ProjectsPage() {
                 style={{ borderColor: "var(--color-border)" }}
               />
             ) : null}
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span
-                aria-hidden
-                className="inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
-              >
-                →
-              </span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <AnimatedArrow className="text-[var(--color-text-muted)]" />
               <Link
                 href={`/projects/${p.slug}`}
                 className="text-lg font-medium text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
