@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ParticleCanvas } from "@/components/experiments/particle_canvas";
+import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 
 export const metadata: Metadata = {
   title: "Particles — Dennis Tang",
@@ -17,12 +18,13 @@ function SectionDivider() {
 export default function ParticlesExperiment() {
   return (
     <>
-      <Link
+      <AnimatedArrowLink
         href="/"
-        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline underline-offset-4"
+        direction="backward"
+        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
       >
-        ← Back home
-      </Link>
+        Back home
+      </AnimatedArrowLink>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <span className="font-mono text-xs text-[var(--color-text-muted)]">

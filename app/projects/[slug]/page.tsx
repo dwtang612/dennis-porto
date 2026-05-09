@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
 
 type Params = { slug: string };
@@ -42,12 +43,13 @@ export default async function ProjectDetailPage(
 
   return (
     <>
-      <Link
-        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:underline underline-offset-4"
+      <AnimatedArrowLink
         href="/projects"
+        direction="backward"
+        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
       >
-        ← Back to projects
-      </Link>
+        Back to projects
+      </AnimatedArrowLink>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <span className="font-mono text-xs text-[var(--color-text-muted)]">
@@ -95,11 +97,16 @@ export default async function ProjectDetailPage(
 
       <section>
         <h2 className="text-lg font-semibold">Highlights</h2>
-        <ul className="mt-3 space-y-2 text-[var(--color-text-secondary)]">
-          {project.highlights.map((h) => (
-            <li key={h}>
-              <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
-              {h}
+        <ul className="mt-3 space-y-3 text-[var(--color-text-secondary)]">
+          {project.highlights.map((h, i) => (
+            <li key={h} className="flex gap-3">
+              <span
+                aria-hidden
+                className="mt-0.5 shrink-0 font-mono text-xs tabular-nums text-[var(--color-text-muted)]"
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span>{h}</span>
             </li>
           ))}
         </ul>

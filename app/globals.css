@@ -16,7 +16,7 @@
 @theme inline {
   --color-background: var(--color-base);
   --color-foreground: var(--color-text-primary);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-inter-tight);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -34,4 +34,55 @@ body {
 ::selection {
   background-color: var(--color-accent-subtle);
   color: var(--color-text-primary);
+}
+
+/*
+ * Scroll-driven fade for the home page's sticky hero. As the document
+ * scrolls down, the hero gradually goes from opacity:1 to opacity:0 over
+ * the first 60vh of scroll. By the time sections have fully covered the
+ * hero, it has also faded — so any pixel of hero peeking from behind
+ * the sections is dissolving rather than sitting fully opaque.
+ *
+ * Browser support: Chrome 115+, Edge 115+, Opera 101+, Safari 17.4+.
+ * Firefox does not yet ship `animation-timeline: scroll()` by default;
+ * users there see the hero stay opaque (graceful degradation — sections
+ * still cover it via z-index and opaque background).
+ */
+@keyframes hero-fade-on-scroll {
+  to {
+    opacity: 0;
+  }
+}
+
+.hero-fade-on-scroll {
+  animation: hero-fade-on-scroll linear both;
+  animation-timeline: scroll();
+  animation-range: 0 60vh;
+}
+
+/*
+ * Per-navigation page transition. Wired up via app/template.tsx, which
+ * Next.js re-renders on every route change. Each new page mounts with
+ * this fade + soft scale-up, giving the sense of content materializing
+ * forward into view. Initial page load gets the same treatment, so
+ * landing on the home page after navigating from /journey or /projects
+ * feels like a fresh reset rather than a sliding history transition.
+ */
+@keyframes route-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.route-fade-in {
+  animation: route-fade-in 750ms ease-out both;
+  /* Anchor the scale transform so sticky descendants don't lose their
+   * positioning context. `transform` creates a containing block, but
+   * we want sticky inside still to anchor to the viewport. */
+  transform-origin: center top;
 }

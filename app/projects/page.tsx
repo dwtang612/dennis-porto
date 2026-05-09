@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
 
 export default function ProjectsPage() {
   return (
     <>
-      <h1 className="text-3xl font-semibold tracking-tight">Projects</h1>
+      <AnimatedArrowLink
+        href="/"
+        direction="backward"
+        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
+      >
+        Back home
+      </AnimatedArrowLink>
+      <h1 className="mt-8 text-3xl font-semibold tracking-tight">Projects</h1>
       <p className="mt-4 max-w-xl text-[var(--color-text-secondary)]">
         Each entry is a short case study covering the problem, the approach, the stack,
         and what shipped. More coming as the portfolio grows.
@@ -13,7 +21,7 @@ export default function ProjectsPage() {
 
       <ul className="mt-12 space-y-10">
         {projects.map((p, i) => (
-          <li key={p.slug}>
+          <li key={p.slug} className="group">
             {i > 0 ? (
               <hr
                 className="mb-10"
@@ -21,7 +29,12 @@ export default function ProjectsPage() {
               />
             ) : null}
             <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-              <span aria-hidden className="text-[var(--color-text-muted)]">»</span>
+              <span
+                aria-hidden
+                className="inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
+              >
+                →
+              </span>
               <Link
                 href={`/projects/${p.slug}`}
                 className="text-lg font-medium text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"

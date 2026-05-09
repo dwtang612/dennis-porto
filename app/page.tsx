@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
+import { Locate } from "lucide-react";
 import Socials from "@/components/Socials";
-import Avatar from "@/components/Avatar";
+import { TechCard } from "@/components/TechCard";
+import ContactForm from "@/components/ContactForm";
+import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
 import { homeTechnologies } from "@/data/skills";
+import { isMongoConfigured } from "@/lib/mongodb";
 
 function SectionDivider() {
   return (
@@ -20,50 +23,75 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 }
 
 export default function HomePage() {
+  const formEnabled = isMongoConfigured();
+
   return (
     <>
-      <section>
-        <Badge variant="accent">Open to fullstack roles · 2026</Badge>
-        <Avatar name="Dennis Tang" size={96} className="mt-6" />
-        <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-          Hi, I&apos;m Dennis.
-        </h1>
-        <p className="mt-2 text-sm text-[var(--color-text-muted)]">
-          Woodland Hills, California
-        </p>
-        <p className="mt-6 text-[var(--color-text-secondary)]">
-          These days I write{" "}
-          <strong className="text-[var(--color-text-primary)]">
-            TypeScript
-          </strong>{" "}
-          at <strong className="text-[var(--color-text-primary)]">OPTRO</strong>
-          , where I build the test automation that keeps our backend services
-          honest. Before that, two years at{" "}
-          <strong className="text-[var(--color-text-primary)]">Abbott</strong>{" "}
-          wrangling{" "}
-          <strong className="text-[var(--color-text-primary)]">HL7</strong>{" "}
-          integrations on{" "}
-          <strong className="text-[var(--color-text-primary)]">Linux</strong>{" "}
-          for a healthcare platform 500K people leaned on. On the side, I&apos;m
-          chipping away at an MS at{" "}
-          <strong className="text-[var(--color-text-primary)]">
-            Georgia Tech
-          </strong>{" "}
-          in computational perception and robotics.
-        </p>
+      {/*
+       * Hero is sticky at top of viewport: it pins in place while sections
+       * below (z-10, opaque background) scroll up and progressively cover
+       * it. The hero feels like the "main window" you described — it stays
+       * put; Technologies and the rest slide over the top of it.
+       *
+       * `-mt-16` cancels the parent <main>'s `py-16` so the hero starts
+       * flush with the bottom of the header instead of inside the padding.
+       */}
+      <section className="hero-fade-on-scroll sticky top-0 z-0 -mt-32 flex min-h-screen flex-col justify-center">
+        {/*
+         * Hero prose constrained to 75% of the column width: the left edge
+         * stays anchored to the page's left content edge, and the right
+         * edge pulls in by 25% so there's intentional whitespace on the
+         * right. The Socials row below is intentionally OUTSIDE this
+         * wrapper so the icons can sit on the page's full content width.
+         */}
+        <div className="max-w-[75%]">
+          <h1 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
+            Hi, I&apos;m Dennis.
+          </h1>
+          <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)]">
+            <Locate size={14} aria-hidden />
+            Los Angeles
+          </p>
+          <p className="mt-6 text-[var(--color-text-secondary)]">
+            These days I write{" "}
+            <strong className="text-[var(--color-text-primary)]">
+              TypeScript
+            </strong>{" "}
+            at <strong className="text-[var(--color-text-primary)]">OPTRO</strong>
+            , where I build the test automation that keeps our backend services
+            honest. Before that, two years at{" "}
+            <strong className="text-[var(--color-text-primary)]">Abbott</strong>{" "}
+            wrangling{" "}
+            <strong className="text-[var(--color-text-primary)]">HL7</strong>{" "}
+            integrations on{" "}
+            <strong className="text-[var(--color-text-primary)]">Linux</strong>{" "}
+            for a healthcare platform 500K people leaned on. On the side, I&apos;m
+            chipping away at an MS at{" "}
+            <strong className="text-[var(--color-text-primary)]">
+              Georgia Tech
+            </strong>{" "}
+            in computational perception and robotics.
+          </p>
+        </div>
 
-        <div className="mt-6">
-          <Socials size={20} />
+        <div className="mt-8">
+          <Socials size={32} />
         </div>
       </section>
 
+      {/*
+       * Sections below the hero render OVER it. They have their own
+       * background color (matching the page) so the hero is hidden behind
+       * them as they scroll up over the top of the sticky hero.
+       */}
+      <div className="relative z-10 bg-[var(--color-base)]">
       <SectionDivider />
 
       <section>
         <SectionHeading>Technologies</SectionHeading>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {homeTechnologies.map((s) => (
-            <Badge key={s}>{s}</Badge>
+        <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
+          {homeTechnologies.map((t) => (
+            <TechCard key={t.name} name={t.name} icon={t.icon} />
           ))}
         </div>
       </section>
@@ -74,13 +102,13 @@ export default function HomePage() {
         <SectionHeading>Projects</SectionHeading>
         <ul className="mt-4 space-y-4">
           {projects.map((p) => (
-            <li key={p.slug}>
+            <li key={p.slug} className="group">
               <div>
                 <span
                   aria-hidden
-                  className="mr-2 text-[var(--color-text-muted)]"
+                  className="mr-2 inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
                 >
-                  »
+                  →
                 </span>
                 <Link
                   href={`/projects/${p.slug}`}
@@ -100,12 +128,13 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-        <Link
+        <AnimatedArrowLink
           href="/projects"
-          className="mt-6 inline-block text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+          direction="forward"
+          className="mt-6 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
         >
-          All projects →
-        </Link>
+          All projects
+        </AnimatedArrowLink>
       </section>
 
       <SectionDivider />
@@ -113,16 +142,23 @@ export default function HomePage() {
       <section>
         <SectionHeading>Experiments</SectionHeading>
         <ul className="mt-4 space-y-4">
-          <li>
+          <li className="group">
             <div>
-              <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+              <span
+                aria-hidden
+                className="mr-2 inline-block text-[var(--color-text-muted)] transition-transform group-hover:translate-x-1"
+              >
+                →
+              </span>
               <Link
                 href="/experiments/particles"
                 className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
               >
                 Particles
               </Link>
-              <span className="ml-2 text-[var(--color-text-muted)]">· 2026</span>
+              <span className="ml-2 text-[var(--color-text-muted)]">
+                · 2026
+              </span>
             </div>
             <p className="ml-6 text-sm text-[var(--color-text-secondary)]">
               An 800-particle vanilla-canvas swarm in ~80 lines of TypeScript.
@@ -133,23 +169,12 @@ export default function HomePage() {
 
       <SectionDivider />
 
-      <section>
+      <section id="contact">
         <SectionHeading>Contact</SectionHeading>
-        <p className="mt-4 text-[var(--color-text-secondary)]">
-          If you would like to get in touch, feel free to leave a message.
-        </p>
-        <p className="mt-4">
-          <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">
-            »
-          </span>
-          <Link
-            href="/contact"
-            className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
-          >
-            Send a message
-          </Link>
-        </p>
+        <ContactForm enabled={formEnabled} />
       </section>
+
+      </div>
     </>
   );
 }
