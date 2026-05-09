@@ -43,7 +43,7 @@ const education = [
     degree: "M.S. Computer Science",
     school: "Georgia Institute of Technology",
     detail: "Concentration: Computational Perception & Robotics",
-    period: "Expected 2027",
+    period: "Expected 2029",
   },
   {
     degree: "B.S. Computer Science",
@@ -55,10 +55,7 @@ const education = [
 
 function SectionDivider() {
   return (
-    <hr
-      className="my-12"
-      style={{ borderColor: "var(--color-border)" }}
-    />
+    <hr className="my-12" style={{ borderColor: "var(--color-border)" }} />
   );
 }
 
@@ -67,11 +64,12 @@ export default function AboutPage() {
     <>
       <h1 className="text-3xl font-semibold tracking-tight">About</h1>
       <p className="mt-4 text-[var(--color-text-secondary)]">
-        I&apos;m a software engineer based in Woodland Hills, California. My professional work
-        lives at the intersection of product code and the systems that keep it reliable,
-        test automation, CI/CD, and backend validation for distributed services. I&apos;m
-        extending that foundation into fullstack product engineering through my graduate
-        studies at Georgia Tech.
+        I&apos;m a software engineer based in Woodland Hills, California. My
+        professional work lives at the intersection of product code and the
+        systems that keep it reliable, test automation, CI/CD, and backend
+        validation for distributed services. I&apos;m extending that foundation
+        into fullstack product engineering through my graduate studies at
+        Georgia Tech.
       </p>
 
       <SectionDivider />
@@ -103,7 +101,12 @@ export default function AboutPage() {
               <ul className="mt-4 space-y-2 text-sm text-[var(--color-text-secondary)]">
                 {e.bullets.map((b) => (
                   <li key={b}>
-                    <span aria-hidden className="mr-2 text-[var(--color-text-muted)]">»</span>
+                    <span
+                      aria-hidden
+                      className="mr-2 text-[var(--color-text-muted)]"
+                    >
+                      »
+                    </span>
                     {b}
                   </li>
                 ))}
@@ -119,13 +122,20 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold tracking-tight">Education</h2>
         <div className="mt-6 space-y-6">
           {education.map((e) => (
-            <div key={e.school} className="flex flex-wrap items-baseline justify-between gap-2">
+            <div
+              key={e.school}
+              className="flex flex-wrap items-baseline justify-between gap-2"
+            >
               <div>
                 <div className="font-medium text-[var(--color-text-primary)]">
                   {e.degree}
                 </div>
-                <div className="text-sm text-[var(--color-text-secondary)]">{e.school}</div>
-                <div className="text-sm text-[var(--color-text-muted)]">{e.detail}</div>
+                <div className="text-sm text-[var(--color-text-secondary)]">
+                  {e.school}
+                </div>
+                <div className="text-sm text-[var(--color-text-muted)]">
+                  {e.detail}
+                </div>
               </div>
               <span className="font-mono text-xs text-[var(--color-text-muted)]">
                 {e.period}

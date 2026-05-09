@@ -5,6 +5,7 @@ export type Project = {
   title: string;
   role: string;
   year: string;
+  tagline?: string;
   summary: string;
   stack: string[];
   highlights: string[];
@@ -22,6 +23,7 @@ export const projects: Project[] = [
     title: "Blackjack Counter",
     role: "Personal project",
     year: "2026",
+    tagline: "Tkinter + CLI Python game, 182 tests",
     summary:
       "A desktop Blackjack game in Python with a Tkinter GUI and a parallel CLI front-end, both driven by the same state-machine core. Built as a focused refresher on Python fundamentals with strict separation between game logic and presentation.",
     stack: ["Python", "Tkinter", "pytest", "uv", "ruff"],
@@ -41,6 +43,7 @@ export const projects: Project[] = [
     title: "System Monitor in Linux",
     role: "Personal project",
     year: "2020",
+    tagline: "htop-inspired ncurses dashboard in C++",
     summary:
       "An htop-inspired terminal monitor written in modern C++ that reads from /proc to track CPU, memory, and per-process utilization in real time.",
     stack: ["C++", "Linux", "ncurses", "/proc"],

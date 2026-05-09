@@ -5,8 +5,9 @@ const ContactMessageSchema = new Schema(
     name: { type: String, required: true, trim: true, maxlength: 120 },
     email: { type: String, required: true, trim: true, lowercase: true, maxlength: 254 },
     message: { type: String, required: true, trim: true, maxlength: 5000 },
+    read: { type: Boolean, default: false, index: true },
   },
-  { timestamps: { createdAt: true, updatedAt: false } }
+  { timestamps: { createdAt: true, updatedAt: true } }
 );
 
 export type ContactMessage = InferSchemaType<typeof ContactMessageSchema>;

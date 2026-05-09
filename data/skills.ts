@@ -8,3 +8,17 @@ export const skillGroups: SkillGroup[] = [
 ];
 
 export const allSkills: string[] = skillGroups.flatMap((g) => g.items);
+
+// Curated subset for the home page's Technologies row. Keep this short:
+// 8 to 10 tools that recruiters and visitors recognize at a glance.
+// Full skill grouping lives in `skillGroups` and is rendered on /about.
+export const homeTechnologies: string[] = [
+  "Python",
+  "TypeScript",
+  "Java",
+  "Playwright",
+  "Linux",
+  "GitHub Actions",
+  "AWS",
+  "PostgreSQL",
+];
