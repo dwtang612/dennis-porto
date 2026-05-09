@@ -33,15 +33,22 @@ export default function Avatar({
   size?: number;
   className?: string;
 }) {
-  // If a specific src is passed, only that path is checked. Otherwise we
-  // probe a small set of common avatar filenames so the user can drop a
-  // photo with whichever extension they already have.
-  const candidates = src
-    ? [src]
-    : ["/avatar.webp", "/avatar.jpg", "/avatar.jpeg", "/avatar.png"];
-  const resolvedSrc = candidates.find((c) =>
-    fs.existsSync(path.join(process.cwd(), "public", c.replace(/^\//, "")))
-  );
+  // Absolute URLs (https://bucket.s3.amazonaws.com/...) bypass the
+  // filesystem probe and are trusted as-is. Local public-relative paths
+  // (or no src at all) are probed against `public/` so the initials
+  // fallback can kick in when the file isn't there yet.
+  const isAbsoluteUrl = src ? /^https?:\/\//.test(src) : false;
+  let resolvedSrc: string | undefined;
+  if (isAbsoluteUrl) {
+    resolvedSrc = src;
+  } else {
+    const candidates = src
+      ? [src]
+      : ["/avatar.webp", "/avatar.jpg", "/avatar.jpeg", "/avatar.png"];
+    resolvedSrc = candidates.find((c) =>
+      fs.existsSync(path.join(process.cwd(), "public", c.replace(/^\//, "")))
+    );
+  }
   const hasImage = Boolean(resolvedSrc);
 
   if (hasImage && resolvedSrc) {
