@@ -172,11 +172,7 @@ export default async function ProjectDetailPage(
                 Live demo
               </a>
             </Button>
-          ) : (
-            <span className="self-center text-sm text-[var(--color-text-muted)]">
-              Live demo coming soon
-            </span>
-          )}
+          ) : null}
         </div>
       </section>
     </>
