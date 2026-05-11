@@ -14,6 +14,9 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  // honeypot. real users never see / fill this. bots fill every field
+  // they find, so a non-empty value is a strong "this is a bot" signal.
+  const [company, setCompany] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -23,7 +26,7 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, company }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
@@ -46,6 +49,21 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
 
   return (
     <form onSubmit={onSubmit} className="mt-6 space-y-4">
+      {/* Honeypot. Visually hidden via sr-only + extra opt-outs for
+          assistive tech. Bots that fill every input will land here. */}
+      <div className="sr-only" aria-hidden="true">
+        <label htmlFor="contact-company">Company (leave this empty)</label>
+        <input
+          id="contact-company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+      </div>
+
       {!enabled ? (
         <p className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-3 text-xs text-[var(--color-text-muted)]">
           Form is read-only in this environment. Set <code className="font-mono">MONGODB_URI</code>{" "}
