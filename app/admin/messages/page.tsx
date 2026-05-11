@@ -4,7 +4,7 @@ import {
   clearSessionCookie,
   isAdminConfigured,
   isAuthenticated,
-} from "@/lib/admin-auth";
+} from "@/lib/admin_auth";
 import { connectMongo, isMongoConfigured } from "@/lib/mongodb";
 import { ContactMessageModel } from "@/lib/models/ContactMessage";
 

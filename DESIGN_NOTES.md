@@ -3,6 +3,11 @@
 Working memory for the non-obvious decisions in this codebase. The code
 itself is kept light on comments; explanations and rationale live here.
 
+Several systems below (the particle simulation, the detection-box
+trail, parts of this document) were drafted and refactored with
+Claude (Anthropic) as a collaborator. Direction, design choices, and
+final shape are mine.
+
 ## Visual frame (`app/layout.tsx`, `app/globals.css`)
 
 ### Vignette + edge fade

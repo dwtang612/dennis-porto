@@ -10,11 +10,11 @@ export type ProjectImages = {
   screenshots: string[];
 };
 
-// Probes `public/projects/<slug>/` for images. Cover priority:
-//   1. file named `cover.<ext>`
-//   2. file with "main", "hero", or "primary" in its name
-//   3. first image alphabetically (so the directory is never empty-rendered)
-// All other images become screenshots, sorted alphabetically.
+// looks in public/projects/<slug>/ for images. picks a cover by:
+//   1. anything literally named cover.<ext>
+//   2. anything with "main" / "hero" / "primary" in the name
+//   3. fallback to the first image alphabetically
+// everything else becomes a screenshot. server-only (uses fs).
 export function getProjectImages(slug: string): ProjectImages {
   const dir = path.join(process.cwd(), "public", "projects", slug);
   if (!fs.existsSync(dir)) return { cover: null, screenshots: [] };

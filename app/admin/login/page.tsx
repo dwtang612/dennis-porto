@@ -4,7 +4,7 @@ import {
   isAdminConfigured,
   isAuthenticated,
   setSessionCookie,
-} from "@/lib/admin-auth";
+} from "@/lib/admin_auth";
 
 export const dynamic = "force-dynamic";
 

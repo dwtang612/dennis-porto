@@ -71,6 +71,7 @@ data/
 lib/
   mongodb.ts                  Cached Mongoose connection
   admin_auth.ts               HMAC-signed session cookie helpers
+  project_assets.ts           Server-side probe for per-project image files
   models/ContactMessage.ts    Mongoose schema for contact messages
   utils.ts                    cn() helper (clsx + tailwind-merge)
 ```
@@ -90,6 +91,18 @@ everything else (Home, Journey, Projects, the particle field) is static.
 
 For design rationale, physics constants, animation systems, and other
 non-obvious decisions, see [DESIGN_NOTES.md](./DESIGN_NOTES.md).
+
+## Built with help from
+
+A meaningful portion of this codebase was refactored and iterated with
+Claude (Anthropic) as a pair programmer. The architectural choices,
+the visual language, the content of the bio and case studies, and the
+final shape of every decision are mine. The AI accelerated the work,
+particularly the particle simulation physics, the CV-detection-box
+flourish, the comment cleanup pass, and a lot of small refactors, but
+the judgment calls about what to build and what to throw away stayed
+with me. I'd rather note that openly here than have it be a question
+in an interview.
 
 ## License
 

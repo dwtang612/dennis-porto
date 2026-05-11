@@ -24,7 +24,8 @@ const COLOR = "#3a3328";
 const RADIUS = 1.4;
 const INIT_SPEED = 0.35;
 
-// Black hole physics
+// black hole knobs. tune these to taste; the rest of the file just
+// reads them.
 const BH_X_FRAC = 0.78;
 const BH_Y_FRAC = 0.15;
 const INFLUENCE_RADIUS = 280;
@@ -40,7 +41,8 @@ const PLUNGE_RADIUS = 55; // ISCO: inside this, orbits collapse to radial plunge
 const MIN_RESPAWN_FRAMES = 120;
 const MAX_RESPAWN_FRAMES = 360;
 
-// Detection box + trail (CV-tracker aesthetic, drag-only)
+// the detection box + ghost trail (only visible while dragging the BH).
+// little YOLO-style flourish for the CV crowd.
 const BOX_SIZE = 110;
 const BOX_LERP = 1;
 const TRAIL_LIFE = 30;
@@ -128,8 +130,10 @@ function applyOrbitalBoost(
 }
 
 export function ParticleBackground() {
-  // Two canvases: particles on z-0 (behind cards), BH on z-30 (above
-  // cards) so the silhouette stays crisp through the translucent cards.
+  // two canvases. particles go on the lower one so they sit behind the
+  // section cards. the black hole goes on the upper one because the
+  // translucent cards washed out its silhouette when both were on the
+  // same layer.
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const bhCanvasRef = useRef<HTMLCanvasElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
