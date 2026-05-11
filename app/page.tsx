@@ -1,8 +1,6 @@
 import Link from "next/link";
-import { Locate } from "lucide-react";
-import Socials from "@/components/Socials";
 import { TechCard } from "@/components/TechCard";
-import { ParticleBackground } from "@/components/ParticleBackground";
+import { HeroInteractive } from "@/components/HeroInteractive";
 import ContactForm from "@/components/ContactForm";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { AnimatedArrow } from "@/components/AnimatedArrow";
@@ -23,48 +21,10 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Mounted only on /; unmounts on navigation to other pages. */}
-      <ParticleBackground />
-
-      {/* Sticky hero (z-10) over the particle field. `-mt-32` cancels
-          the parent <main>'s pt-32. */}
-      <section className="hero-fade-on-scroll sticky top-0 z-10 -mt-32 flex min-h-screen flex-col justify-center">
-        <div className="max-w-[75%] rounded-3xl bg-[var(--color-base-translucent)] p-4">
-          <h1 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
-            Hi, I&apos;m Dennis.
-          </h1>
-          <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-[var(--color-text-muted)]">
-            <Locate size={14} aria-hidden />
-            Los Angeles
-          </p>
-          <p className="mt-6 text-[var(--color-text-secondary)]">
-            I write{" "}
-            <strong className="text-[var(--color-text-primary)]">
-              TypeScript
-            </strong>{" "}
-            at <strong className="text-[var(--color-text-primary)]">OPTRO</strong>
-            , building the test automation that keeps both our frontend and
-            backend services honest. I&apos;m a growing{" "}
-            <strong className="text-[var(--color-text-primary)]">
-              fullstack engineer
-            </strong>
-            , with{" "}
-            <strong className="text-[var(--color-text-primary)]">
-              AI and robotics
-            </strong>{" "}
-            as the longer goal, which is why I&apos;m chipping away at a
-            Master of Science in Computational Perception and Robotics at the{" "}
-            <strong className="text-[var(--color-text-primary)]">
-              Georgia Institute of Technology
-            </strong>
-            .
-          </p>
-        </div>
-
-        <div className="mt-3 w-fit rounded-full bg-[var(--color-base-translucent)] px-4 py-3">
-          <Socials size={32} />
-        </div>
-      </section>
+      {/* Hero + animation toggle. Default-off so first-time visitors
+          see a static page; the period after "Dennis" activates the
+          particle field. Double-click the BH to deactivate. */}
+      <HeroInteractive />
 
       {/* Section cards (z-20). Wrapper is transparent so the particle
           field shows through the gaps between cards. */}

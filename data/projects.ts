@@ -19,6 +19,27 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "personal-portfolio",
+    title: "Personal Portfolio",
+    role: "Personal project",
+    year: "2026",
+    tagline: "Next.js 16 + MongoDB site with custom interactive UI",
+    summary:
+      "The site you're reading. A fullstack Next.js 16 portfolio built around a newsprint visual language and a custom interactive UI on 2D Canvas. Includes a MongoDB-backed contact form and a self-rolled HMAC-signed admin dashboard for reviewing incoming messages.",
+    stack: ["TypeScript", "Next.js", "Tailwind CSS", "MongoDB", "Zod", "Canvas"],
+    highlights: [
+      "Static-first Next.js 16 App Router with React Server Components; only the contact API and admin dashboard run server-side, everything else prerenders at build time.",
+      "MongoDB-backed contact form via Mongoose with Zod-validated request bodies; the site gracefully disables the form when no database is configured so local dev works without setup.",
+      "Admin dashboard at /admin with HMAC-signed session cookies, written from scratch with the Node crypto module rather than pulling in an auth library.",
+      "Custom interactive UI element built in 2D Canvas: ~600 drifting particles around a draggable focal point that applies Newtonian gravity, an orbital boost on entry to produce visible orbits, and an inner plunge zone that strips tangential momentum near the center.",
+      "Visual system: newsprint-cream palette, soft vignette frame, scroll-driven hero fade via animation-timeline, per-route fade-in transitions with hash-fragment scroll handling, and translucent floating cards over a live particle field.",
+    ],
+    status: "shipped",
+    links: {
+      github: "https://github.com/dwtang612/dennis-porto",
+    },
+  },
+  {
     slug: "blackjack-counter",
     title: "Blackjack Counter",
     role: "Personal project",

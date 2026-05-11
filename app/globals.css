@@ -54,6 +54,22 @@ body {
   animation-range: 0 60vh;
 }
 
+/* Subtle leftward nudge for affordance arrows pointing at an element
+   from the right side. Tailwind's animate-bounce is vertical only. */
+@keyframes nudge-left {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3px);
+  }
+}
+
+.animate-nudge-left {
+  animation: nudge-left 1.2s ease-in-out infinite;
+}
+
 /* Per-navigation fade-in via app/template.tsx. */
 @keyframes route-fade-in {
   from {
