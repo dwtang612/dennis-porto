@@ -4,9 +4,9 @@ import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import Avatar from "@/components/Avatar";
 
 export const metadata: Metadata = {
-  title: "Journey — Dennis Tang",
+  title: "Journey, Dennis Tang",
   description:
-    "How I got from Monterey Bay to Woodland Hills, by way of HL7 integrations, test automation, and an MS at Georgia Tech.",
+    "How I got from Monterey Bay to Woodland Hills, by way of DevOps, test automation, and an MS at the Georgia Institute of Technology in Computational Perception and Robotics.",
 };
 
 type Experience = {
@@ -22,26 +22,26 @@ const experience: Experience[] = [
     role: "Software Development Engineer in Test II",
     company: "OPTRO",
     location: "Cerritos, California",
-    period: "June 2022 — Present",
+    period: "June 2022 to Present",
     bullets: [
-      "Designed and implemented scalable test automation infrastructure using Playwright and TypeScript to validate backend APIs and distributed services.",
-      "Built automated API validation pipelines for backend microservices, cutting regression defects and improving release reliability.",
-      "Integrated automated suites into GitHub Actions CI/CD so every PR runs continuous validation before merge.",
-      "Reduced manual testing effort by 50% and regression testing time by 40% through a reusable automation framework.",
-      "Partnered with developers, PMs, and QA to define test strategy and improve overall software quality.",
+      "Built and extended test automation infrastructure using Playwright and TypeScript to validate backend APIs and services.",
+      "Added automated API validation to backend microservices, used to catch regressions before release.",
+      "Added automated suites to the existing GitHub Actions CI so every PR runs continuous validation before merge.",
+      "Significantly reduced manual testing effort and regression cycle time through a reusable automation framework.",
+      "Worked with developers, PMs, and QA to refine test strategy and improve software quality.",
     ],
   },
   {
     role: "Software Engineer I",
     company: "Abbott",
     location: "Sylmar, California",
-    period: "November 2020 — June 2022",
+    period: "November 2020 to June 2022",
     bullets: [
-      "Performed root cause analysis on production and field issues using logs, telemetry, and Linux environments.",
-      "Validated DevOps activities for web-based software releases serving over 500,000 users.",
-      "Implemented HL7 data integrations in Linux to enable reliable communication between healthcare systems.",
+      "Supported DevOps work for a web-based platform serving over 500,000 users by troubleshooting system issues on Linux and recommending fixes for release blockers.",
+      "Coordinated the team's database maintenance work, including schema changes, migrations, and ongoing data integrity.",
+      "Automated previously-manual regression test suites, eliminating repetitive verification work and shortening release cycles.",
       "Built and maintained automated testing infrastructure supporting thousands of test cases across large-scale web apps.",
-      "Led cross-functional work across Marketing, Regulatory, Software Development, and IT.",
+      "Performed root cause analysis on production issues using logs, telemetry, and Linux environments to keep release reliability high.",
     ],
   },
 ];
@@ -94,13 +94,7 @@ export default function JourneyPage() {
       </p>
 
       <div className="mt-10 text-[var(--color-text-secondary)]">
-        {/*
-         * Floated avatar, magazine-article style. The wrapping div carries
-         * `float-right` + spacing, and `shape-outside: circle()` makes the
-         * surrounding paragraphs hug the circular silhouette instead of
-         * the square bounding box. Text below the avatar wraps under it
-         * naturally once it exceeds the avatar's height.
-         */}
+        {/* Float + shape-outside so prose hugs the avatar's circle. */}
         <div
           className="float-right ml-6 mb-4"
           style={{ shapeOutside: "circle()" }}
@@ -121,16 +115,17 @@ export default function JourneyPage() {
           </strong>{" "}
           in May 2020 and went straight into the deep end at{" "}
           <strong className="text-[var(--color-text-primary)]">Abbott</strong>{" "}
-          that November. The job was equal parts software engineering and
-          forensic detective work, root-causing production issues on a
-          web-based platform serving more than half a million users, wiring
-          up{" "}
-          <strong className="text-[var(--color-text-primary)]">HL7</strong>{" "}
-          integrations between healthcare systems on Linux, and validating
-          releases that genuinely could not afford to be wrong. Two years of
-          log-diving, telemetry-chasing, and ship-or-don&apos;t-ship calls
-          taught me what reliability actually costs and why senior engineers
-          care about boring infrastructure.
+          that November. Over two years there I worked across the
+          engineering side of a platform serving more than half a million
+          users: supporting DevOps with system troubleshooting and
+          release-fix advice, coordinating the team&apos;s database
+          maintenance work (schema changes, migrations, data integrity),
+          and converting brittle manual regression suites into automated
+          runs that shortened every release cycle. The work was equal
+          parts software engineering and forensic detective work, and two
+          years of log-diving, telemetry-chasing, and ship-or-don&apos;t-ship
+          calls taught me what reliability actually costs and why senior
+          engineers care about boring infrastructure.
         </p>
 
         <p className="mt-6">
@@ -154,14 +149,17 @@ export default function JourneyPage() {
         <p className="mt-6">
           On nights and weekends I&apos;m working through an{" "}
           <strong className="text-[var(--color-text-primary)]">
-            M.S. in Computer Science at Georgia Tech
-          </strong>
-          , concentrating in Computational Perception & Robotics. It&apos;s
-          a long-burn — a few years still in front of me — but the topic
+            M.S. in Computer Science at the Georgia Institute of Technology
+          </strong>{" "}
+          (Georgia Tech), concentrating in Computational Perception &
+          Robotics. It&apos;s
+          a long-burn (a few years still in front of me), but the topic
           pulls at the part of my brain that wants to understand how systems
           learn to see and reason about the physical world. The OMSCS format
           works because the work it builds on is the work I&apos;m already
-          doing.
+          doing. Alongside the coursework, I&apos;m also building side
+          projects that showcase both my computer vision and fullstack
+          development work.
         </p>
 
         <p className="mt-6">
@@ -174,7 +172,7 @@ export default function JourneyPage() {
           trying to fill, the{" "}
           <Link
             href="/#contact"
-            className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
+            className="text-[var(--color-accent)] underline decoration-1 underline-offset-4 transition-all duration-200 hover:text-[var(--color-accent-hover)] hover:decoration-2"
           >
             contact form
           </Link>{" "}

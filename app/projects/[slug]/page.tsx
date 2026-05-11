@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
+import { getProjectImages } from "@/lib/project_assets";
 
 type Params = { slug: string };
 
@@ -19,7 +20,7 @@ export async function generateMetadata(
   const project = projects.find((p) => p.slug === slug);
   if (!project) return { title: "Project not found" };
   return {
-    title: `${project.title} — Dennis Tang`,
+    title: `${project.title}, Dennis Tang`,
     description: project.summary,
   };
 }
@@ -40,6 +41,7 @@ export default async function ProjectDetailPage(
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) notFound();
+  const { cover, screenshots } = getProjectImages(project.slug);
 
   return (
     <>
@@ -50,6 +52,20 @@ export default async function ProjectDetailPage(
       >
         Back to projects
       </AnimatedArrowLink>
+
+      {cover ? (
+        <div className="mt-8 mx-auto max-w-3xl overflow-hidden rounded-2xl border border-[var(--color-border)]">
+          <Image
+            src={cover}
+            alt={project.title}
+            width={1600}
+            height={1000}
+            className="h-auto w-full"
+            priority
+            unoptimized
+          />
+        </div>
+      ) : null}
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <span className="font-mono text-xs text-[var(--color-text-muted)]">
@@ -111,6 +127,32 @@ export default async function ProjectDetailPage(
           ))}
         </ul>
       </section>
+
+      {screenshots.length > 0 ? (
+        <>
+          <SectionDivider />
+          <section>
+            <h2 className="text-lg font-semibold">Screenshots</h2>
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {screenshots.map((src) => (
+                <div
+                  key={src}
+                  className="overflow-hidden rounded-xl border border-[var(--color-border)]"
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    width={1600}
+                    height={1000}
+                    className="h-auto w-full"
+                    unoptimized
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      ) : null}
 
       <SectionDivider />
 

@@ -1,9 +1,5 @@
 import Image from "next/image";
 
-/**
- * A tech logo served from `public/icons/<slug>.svg`. All home-page tech
- * logos are full-color official SVGs (devicon for most, Wikimedia for AWS).
- */
 export type TechIcon = {
   src: string;
   alt: string;

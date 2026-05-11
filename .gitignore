@@ -163,3 +163,7 @@ credentials*.json
 # macOS finder metadata
 .DS_Store
 **/.DS_Store
+
+
+# MongoDB VSCode extension scratchpads
+*.mongodb.js

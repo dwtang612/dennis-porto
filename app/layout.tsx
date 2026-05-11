@@ -14,7 +14,7 @@ import { GithubIcon, LinkedinIcon, SOCIAL_LINKS } from "@/components/Socials";
 import { HomeLink } from "@/components/HomeLink";
 
 export const metadata: Metadata = {
-  title: "Dennis Tang — Fullstack Engineer",
+  title: "Dennis Tang, Fullstack Engineer",
   description:
     "Fullstack engineer with a background in test automation, CI/CD, and backend reliability. Currently pursuing an MS in Computer Science at Georgia Tech.",
 };
@@ -31,20 +31,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-[var(--color-base)] text-[var(--color-text-primary)]">
-        {/*
-         * Vignette frame: 4 linear gradients (one per side) that paint a
-         * gray-to-transparent fade from the very edge of the viewport
-         * inward. The gradient depth scales with viewport via `clamp()`:
-         *   - 8px minimum (on tiny phones — the border becomes a hint)
-         *   - 2vw fluid    (smooth scaling between min and max)
-         *   - 20px maximum (on desktop — full subtle frame)
-         *
-         * The CSS variable `--frame` lets the four gradient strings reuse
-         * one source of truth, and changing it in one place updates all
-         * four edges. No solid line — just a soft dark border that lets
-         * content darken as it approaches the viewport edge.
-         * pointer-events:none so clicks pass through.
-         */}
+        {/* Vignette frame: soft gray fade on all four viewport edges. */}
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-30"
@@ -61,17 +48,7 @@ export default function RootLayout({
           }
         />
 
-        {/*
-         * Top + bottom page-color fade overlays. Linear gradients from
-         * solid page color at the viewport edge to transparent. Heights
-         * scale fluidly with viewport so on phones the fade is shorter
-         * (less of the screen is consumed by gradient) and on desktops
-         * it's tall enough for content to dissolve gracefully.
-         *
-         * Sit BELOW the vignette (z-20 vs z-30) so the dark frame draws
-         * on top while content underneath dissolves into the page color
-         * before reaching the dark band.
-         */}
+        {/* Top + bottom page-color fades (z-20, below the vignette). */}
         <div
           aria-hidden
           className="pointer-events-none fixed inset-x-0 top-0 z-20"
@@ -98,13 +75,8 @@ export default function RootLayout({
             className="mx-auto flex max-w-6xl flex-col items-center gap-4 border-t px-6 pt-10 pb-32 text-sm text-[var(--color-text-secondary)]"
             style={{ borderColor: "var(--color-border)" }}
           >
-            {/*
-             * Three-column footer: each column pairs a social icon (top)
-             * with an internal nav link (bottom), centered. GitHub renders
-             * larger than email/linkedin so it reads as the primary social
-             * destination. Icon and text links go to different
-             * destinations — they're paired visually, not functionally.
-             */}
+            {/* Footer: three columns, each pairing a social icon with an
+                internal nav link. GitHub is sized larger as the primary. */}
             <div className="flex items-start justify-center gap-12 sm:gap-16">
               <div className="flex flex-col items-center gap-3">
                 <a

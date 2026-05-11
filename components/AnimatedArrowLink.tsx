@@ -9,20 +9,8 @@ type Props = {
   className?: string;
 };
 
-/**
- * A link with the shared `AnimatedArrow` paired to its text. For the
- * common case where the WHOLE row is the link ("All projects", "Back
- * home"). When the link is just one piece of a larger row (e.g. a
- * project list item with year + tagline alongside the title), drop
- * `AnimatedArrow` into the row directly and mark the parent as
- * `group` so the hover animation still triggers.
- *
- * Resting state: a short line + arrowhead.
- * Hover state:   the line scales horizontally outward (origin-anchored),
- *                and the arrowhead translates further in the link's
- *                direction. Together: the arrow "reaches" toward its
- *                destination.
- */
+// Whole-row link with `AnimatedArrow`. For mid-row arrows, drop
+// AnimatedArrow into the row directly and mark the parent `group`.
 export function AnimatedArrowLink({
   href,
   children,

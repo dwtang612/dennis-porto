@@ -1,19 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /*
-   * Newsprint palette. The page reads like a sheet of pulp newspaper
-   * rather than fresh printer paper — grayer, less yellow, with the
-   * faintly chalky cast that comes from low-grade recycled fiber. Hue
-   * is a hair warm so it doesn't drift into "concrete," but the gray
-   * dominates the warmth, which is what separates newspaper from
-   * stationery cream.
-   *
-   * Text and borders stay warm so cool slate doesn't pick up a blue
-   * cast against the warm-gray paper. Accent moves a step deeper in
-   * the blue family so it reads confidently as ink rather than
-   * vibrating against the muted ground.
-   */
+  /* Newsprint palette. */
   --color-base: #e2ddc9;
   --color-surface: #d8d2bd;
   --color-card: #e2ddc9;
@@ -25,14 +13,7 @@
   --color-accent-hover: #1e40af;
   --color-accent-subtle: #cdc6ae;
 
-  /*
-   * Translucent newsprint, used by every "floating block" on the home
-   * page (hero copy, socials pill, and the four section cards).
-   * Resolves to the page color at 55% opacity so the particle field
-   * underneath stays partially visible through the blocks. One source
-   * of truth — bump the percentage here to make the cards more
-   * transparent across the entire page in one shot.
-   */
+  /* Page color at 55% opacity, used by home-page floating blocks. */
   --color-base-translucent: color-mix(in oklab, var(--color-base) 55%, transparent);
 }
 
@@ -59,18 +40,8 @@ body {
   color: var(--color-text-primary);
 }
 
-/*
- * Scroll-driven fade for the home page's sticky hero. As the document
- * scrolls down, the hero gradually goes from opacity:1 to opacity:0 over
- * the first 60vh of scroll. By the time sections have fully covered the
- * hero, it has also faded — so any pixel of hero peeking from behind
- * the sections is dissolving rather than sitting fully opaque.
- *
- * Browser support: Chrome 115+, Edge 115+, Opera 101+, Safari 17.4+.
- * Firefox does not yet ship `animation-timeline: scroll()` by default;
- * users there see the hero stay opaque (graceful degradation — sections
- * still cover it via z-index and opaque background).
- */
+/* Scroll-driven hero fade. Chrome/Edge/Safari 17.4+. Firefox keeps
+   hero opaque (graceful degradation; sections cover it anyway). */
 @keyframes hero-fade-on-scroll {
   to {
     opacity: 0;
@@ -83,14 +54,7 @@ body {
   animation-range: 0 60vh;
 }
 
-/*
- * Per-navigation page transition. Wired up via app/template.tsx, which
- * Next.js re-renders on every route change. Each new page mounts with
- * this fade + soft scale-up, giving the sense of content materializing
- * forward into view. Initial page load gets the same treatment, so
- * landing on the home page after navigating from /journey or /projects
- * feels like a fresh reset rather than a sliding history transition.
- */
+/* Per-navigation fade-in via app/template.tsx. */
 @keyframes route-fade-in {
   from {
     opacity: 0;
@@ -104,8 +68,6 @@ body {
 
 .route-fade-in {
   animation: route-fade-in 750ms ease-out both;
-  /* Anchor the scale transform so sticky descendants don't lose their
-   * positioning context. `transform` creates a containing block, but
-   * we want sticky inside still to anchor to the viewport. */
+  /* Top-anchored so sticky descendants keep their viewport anchor. */
   transform-origin: center top;
 }

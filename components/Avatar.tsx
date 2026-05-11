@@ -11,17 +11,8 @@ function getInitials(name: string): string {
     .join("");
 }
 
-/**
- * Renders a circular avatar.
- *
- * Pass the public-relative path in `src`. If unset, the component probes
- * `/avatar.{webp,jpg,jpeg,png}` and uses the first match. When no image is
- * found, we render a quiet initials circle as a fallback.
- *
- * The source image is shown centered with `object-cover` and clipped to a
- * circle. Pre-crop your photo to the framing you want; the component does
- * not provide pan/zoom controls.
- */
+// Circular avatar. Uses `src`, or probes /avatar.{webp,jpg,jpeg,png},
+// or falls back to an initials circle.
 export default function Avatar({
   src,
   name,
@@ -33,10 +24,7 @@ export default function Avatar({
   size?: number;
   className?: string;
 }) {
-  // Absolute URLs (https://bucket.s3.amazonaws.com/...) bypass the
-  // filesystem probe and are trusted as-is. Local public-relative paths
-  // (or no src at all) are probed against `public/` so the initials
-  // fallback can kick in when the file isn't there yet.
+  // Absolute URLs bypass the probe; relative paths fall back to initials.
   const isAbsoluteUrl = src ? /^https?:\/\//.test(src) : false;
   let resolvedSrc: string | undefined;
   if (isAbsoluteUrl) {

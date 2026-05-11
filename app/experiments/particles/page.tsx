@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ParticleCanvas } from "@/components/experiments/particle_canvas";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 
 export const metadata: Metadata = {
-  title: "Particles — Dennis Tang",
+  title: "Particles, Dennis Tang",
   description:
     "An 800-particle canvas swarm written in vanilla TypeScript with no animation libraries.",
 };

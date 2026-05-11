@@ -23,40 +23,12 @@ export default function HomePage() {
 
   return (
     <>
-      {/*
-       * Particle background. The component owns its own positioning
-       * and renders TWO layers internally:
-       *   - particles canvas at z-0 (behind section cards)
-       *   - black-hole canvas + drag handle at z-30 (above section
-       *     cards, so the BH stays crisp instead of being washed out
-       *     by the translucent cream cards when overlapping them)
-       * Both layers are fixed to the viewport and inset by the same
-       * `clamp()` formula the layout's vignette frame uses.
-       *
-       * Only mounted on / — when the user navigates to /journey,
-       * /projects, etc. this component unmounts so other pages have
-       * a clean background.
-       */}
+      {/* Mounted only on /; unmounts on navigation to other pages. */}
       <ParticleBackground />
 
-      {/*
-       * Hero is sticky at top of viewport (z-10, above particle bg).
-       * Sections below (z-20, opaque background) scroll up and
-       * progressively cover both the hero AND the particle field.
-       *
-       * `-mt-32` cancels the parent <main>'s `pt-32` so the hero starts
-       * flush with the bottom of the (now removed) header instead of
-       * inside the padding.
-       */}
+      {/* Sticky hero (z-10) over the particle field. `-mt-32` cancels
+          the parent <main>'s pt-32. */}
       <section className="hero-fade-on-scroll sticky top-0 z-10 -mt-32 flex min-h-screen flex-col justify-center">
-        {/*
-         * Hero prose constrained to 75% of the column width with an opaque
-         * page-color background, padding, and rounded corners. The white
-         * fill creates a "block of clarity" that occludes the particle
-         * field behind it — particles still drift below this layer (z-0
-         * vs section's z-10), so visually you see them flow around the
-         * outside of this rectangle.
-         */}
         <div className="max-w-[75%] rounded-3xl bg-[var(--color-base-translucent)] p-4">
           <h1 className="text-4xl font-semibold tracking-tight text-[var(--color-text-primary)] sm:text-5xl">
             Hi, I&apos;m Dennis.
@@ -66,50 +38,39 @@ export default function HomePage() {
             Los Angeles
           </p>
           <p className="mt-6 text-[var(--color-text-secondary)]">
-            These days I write{" "}
+            I write{" "}
             <strong className="text-[var(--color-text-primary)]">
               TypeScript
             </strong>{" "}
             at <strong className="text-[var(--color-text-primary)]">OPTRO</strong>
-            , where I build the test automation that keeps our backend services
-            honest. Before that, two years at{" "}
-            <strong className="text-[var(--color-text-primary)]">Abbott</strong>{" "}
-            wrangling{" "}
-            <strong className="text-[var(--color-text-primary)]">HL7</strong>{" "}
-            integrations on{" "}
-            <strong className="text-[var(--color-text-primary)]">Linux</strong>{" "}
-            for a healthcare platform 500K people leaned on. On the side, I&apos;m
-            chipping away at an MS at{" "}
+            , building the test automation that keeps both our frontend and
+            backend services honest. I&apos;m a growing{" "}
             <strong className="text-[var(--color-text-primary)]">
-              Georgia Tech
+              fullstack engineer
+            </strong>
+            , with{" "}
+            <strong className="text-[var(--color-text-primary)]">
+              AI and robotics
             </strong>{" "}
-            in computational perception and robotics.
+            as the longer goal, which is why I&apos;m chipping away at a
+            Master of Science in Computational Perception and Robotics at the{" "}
+            <strong className="text-[var(--color-text-primary)]">
+              Georgia Institute of Technology
+            </strong>
+            .
           </p>
         </div>
 
-        <div className="mt-8 w-fit rounded-full bg-[var(--color-base-translucent)] px-4 py-3">
+        <div className="mt-3 w-fit rounded-full bg-[var(--color-base-translucent)] px-4 py-3">
           <Socials size={32} />
         </div>
       </section>
 
-      {/*
-       * Sections below the hero render OVER the hero (z-10) but the
-       * wrapper itself is TRANSPARENT, so the particle field (z-0) shows
-       * through the gaps between sections. Each <section> is its own
-       * opaque "card" (white fill, rounded corners, padding) — content
-       * stays fully readable while the particles continue to drift in
-       * the spaces between cards as the user scrolls down the page.
-       */}
+      {/* Section cards (z-20). Wrapper is transparent so the particle
+          field shows through the gaps between cards. */}
       <div className="relative z-20 space-y-12">
       <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
         <SectionHeading>Technologies</SectionHeading>
-        {/*
-         * Two labeled subgroups: Full Stack Development (where Dennis
-         * is shipping) and Computer Vision (where he's training).
-         * Each group gets its own muted heading + tech grid.
-         * Subgroups are vertically spaced so the recruiter scanning
-         * for one track can find their column in a single glance.
-         */}
         <div className="mt-6 space-y-10">
           {homeTechGroups.map((group) => (
             <div key={group.label}>
@@ -158,29 +119,6 @@ export default function HomePage() {
         >
           All projects
         </AnimatedArrowLink>
-      </section>
-
-      <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
-        <SectionHeading>Experiments</SectionHeading>
-        <ul className="mt-4 space-y-4">
-          <li className="group">
-            <div className="inline-flex items-center gap-2">
-              <AnimatedArrow className="text-[var(--color-text-muted)]" />
-              <Link
-                href="/experiments/particles"
-                className="text-[var(--color-text-primary)] hover:text-[var(--color-accent)] hover:underline underline-offset-4"
-              >
-                Particles
-              </Link>
-              <span className="text-[var(--color-text-muted)]">
-                · 2026
-              </span>
-            </div>
-            <p className="ml-8 text-sm text-[var(--color-text-secondary)]">
-              An 800-particle vanilla-canvas swarm in ~80 lines of TypeScript.
-            </p>
-          </li>
-        </ul>
       </section>
 
       <section
