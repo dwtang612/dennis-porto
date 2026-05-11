@@ -40,7 +40,7 @@ function getParticleCount(width: number): number {
 
 const COLOR = "#3a3328"; // warm ink — reads as printer's ink on cream newsprint, avoids the blue cast slate has on warm backgrounds
 const RADIUS = 1.4;
-const INIT_SPEED = 0.18; // initial random velocity scale at seed/respawn time
+const INIT_SPEED = 0.35; // initial random velocity scale at seed/respawn time — faster ambient drift means more BH encounters per minute, which makes slingshot belts emerge in seconds instead of after a long AFK
 
 /*
  * Black hole parameters. A movable point in canvas space that pulls
@@ -93,7 +93,7 @@ const INFLUENCE_RADIUS = 280;
 const GM = 280;
 const SOFTENING = 120;
 const EVENT_HORIZON_RADIUS = 28;
-const MAX_SPEED = 4;
+const MAX_SPEED = 5;
 const DAMPING = 0.9999;
 const ORBITAL_BOOST = 1.0;
 const ACCRETION_RADIUS = 140;
@@ -280,6 +280,17 @@ export function ParticleBackground() {
   const handleRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const coordsRef = useRef<HTMLSpanElement>(null);
+  const noteRef = useRef<HTMLDivElement>(null);
+  /**
+   * Whether the "drag me" affordance note is currently visible. Lives
+   * as a ref (not state) because the pointerdown handler — set up
+   * inside the main effect's closure — needs to read its current value
+   * without re-running the effect, and the visibility toggle is done
+   * via direct DOM (style.opacity) anyway. Mirrored to localStorage so
+   * the note doesn't reappear on subsequent visits once the user has
+   * dragged the BH at least once.
+   */
+  const noteShownRef = useRef(false);
   const fallbackRef = useRef<HTMLDivElement>(null);
   // Live black-hole position, written by the drag handler and read by
   // the animation loop every frame. A ref (not state) keeps the loop
@@ -297,6 +308,21 @@ export function ParticleBackground() {
     const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  // Reveal the "drag me" note on mount if the user hasn't already
+  // dragged the BH on a previous visit. Reads localStorage (not
+  // available during SSR), then writes the show flag to a ref so the
+  // pointerdown handler in the main effect can clear it on first drag.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const dragged = localStorage.getItem("bh-dragged-once");
+    if (!dragged) {
+      noteShownRef.current = true;
+      if (noteRef.current) {
+        noteRef.current.style.opacity = "1";
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -336,6 +362,21 @@ export function ParticleBackground() {
     // new pointerdown so each drag starts with a clean trail.
     type TrailGhost = { x: number; y: number; life: number };
     let trailBuffer: TrailGhost[] = [];
+
+    const updateNotePosition = () => {
+      const note = noteRef.current;
+      if (!note) return;
+      const w = bhCanvas.clientWidth;
+      const h = bhCanvas.clientHeight;
+      const cx = bhPosRef.current.xFrac * w;
+      const cy = bhPosRef.current.yFrac * h;
+      // Sit just below the visible accretion glow so the arrow points
+      // up clearly at the BH without overlapping it. translateX(-50%)
+      // (applied via inline style on the note div) horizontally
+      // centers the note on the BH's x.
+      note.style.left = `${cx}px`;
+      note.style.top = `${cy + 105}px`;
+    };
 
     const updateBoxPosition = () => {
       const box = boxRef.current;
@@ -394,6 +435,7 @@ export function ParticleBackground() {
       }
 
       updateHandlePosition();
+      updateNotePosition();
     };
 
     const loop = () => {
@@ -628,6 +670,21 @@ export function ParticleBackground() {
         updateBoxPosition();
         boxRef.current.style.opacity = "1";
       }
+      // First-time-drag affordance: hide the "drag me" note and
+      // remember it across sessions so the user only ever sees the
+      // hint once.
+      if (noteShownRef.current) {
+        noteShownRef.current = false;
+        if (noteRef.current) {
+          noteRef.current.style.opacity = "0";
+        }
+        try {
+          localStorage.setItem("bh-dragged-once", "1");
+        } catch {
+          // localStorage may be disabled (private mode); failing here
+          // just means the note may reappear next visit. Acceptable.
+        }
+      }
       e.preventDefault();
     };
 
@@ -838,6 +895,45 @@ export function ParticleBackground() {
             }}
           >
             (0, 0)
+          </span>
+        </div>
+        {/*
+         * First-visit affordance: a small red arrow + "drag me" label
+         * that sits below the BH and points up at it. Only ever shown
+         * once per browser (state mirrored to localStorage); fades
+         * out the moment the user starts their first drag. Position
+         * is updated via direct DOM in `updateNotePosition`. The
+         * `-translate-x-1/2` centers the note horizontally on the BH.
+         */}
+        <div
+          ref={noteRef}
+          aria-hidden
+          className="pointer-events-none absolute -translate-x-1/2 transition-opacity duration-300 ease-out"
+          style={{
+            opacity: 0,
+            color: "#ef4444",
+          }}
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mx-auto animate-bounce"
+            aria-hidden="true"
+          >
+            <path d="M11 4 L11 18" />
+            <path d="M5 10 L11 4 L17 10" />
+          </svg>
+          <span
+            className="mt-1 block text-center font-mono text-xs font-semibold uppercase tracking-wider"
+            style={{ whiteSpace: "nowrap" }}
+          >
+            drag me
           </span>
         </div>
       </div>

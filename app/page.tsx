@@ -7,7 +7,7 @@ import ContactForm from "@/components/ContactForm";
 import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { AnimatedArrow } from "@/components/AnimatedArrow";
 import { projects } from "@/data/projects";
-import { homeTechnologies } from "@/data/skills";
+import { homeTechGroups } from "@/data/skills";
 import { isMongoConfigured } from "@/lib/mongodb";
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
@@ -103,9 +103,25 @@ export default function HomePage() {
       <div className="relative z-20 space-y-12">
       <section className="rounded-3xl bg-[var(--color-base-translucent)] p-6 lg:p-8">
         <SectionHeading>Technologies</SectionHeading>
-        <div className="mt-6 grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5">
-          {homeTechnologies.map((t) => (
-            <TechCard key={t.name} name={t.name} icon={t.icon} />
+        {/*
+         * Two labeled subgroups: Full Stack Development (where Dennis
+         * is shipping) and Computer Vision (where he's training).
+         * Each group gets its own muted heading + tech grid.
+         * Subgroups are vertically spaced so the recruiter scanning
+         * for one track can find their column in a single glance.
+         */}
+        <div className="mt-6 space-y-10">
+          {homeTechGroups.map((group) => (
+            <div key={group.label}>
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--color-text-muted)]">
+                {group.label}
+              </h3>
+              <div className="mt-4 grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+                {group.items.map((t) => (
+                  <TechCard key={t.name} name={t.name} icon={t.icon} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
