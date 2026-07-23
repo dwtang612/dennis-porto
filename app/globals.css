@@ -273,6 +273,21 @@ body.bh-active .bh-pill {
   animation-iteration-count: infinite;
 }
 
+/* Motion switch. The class is added to <html> only to turn animation OFF,
+   so the default (and the server-rendered markup) stays animated and there
+   is no flash on hydration. The black hole itself is not listed here: it is
+   unmounted outright when motion is off, which is cheaper than hiding it.
+
+   Kept deliberately broad. A visitor who asks for no animation means all of
+   it, not just the parts that were convenient to gate. */
+html.motion-off *,
+html.motion-off *::before,
+html.motion-off *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
 @keyframes bhWave {
   0%,
   100% {
