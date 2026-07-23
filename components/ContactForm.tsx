@@ -1,27 +1,24 @@
 "use client";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 
-type Status =
-  | { kind: "idle" }
-  | { kind: "sending" }
-  | { kind: "success" }
-  | { kind: "error"; message: string };
+import { useState, type CSSProperties } from "react";
+
+type Status = "idle" | "sending" | "success" | "error";
 
 export default function ContactForm({ enabled }: { enabled: boolean }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  // honeypot. real users never see / fill this. bots fill every field
-  // they find, so a non-empty value is a strong "this is a bot" signal.
+  // honeypot: real users never fill this; bots do.
   const [company, setCompany] = useState("");
-  const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const disabled = !enabled || status === "sending";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus({ kind: "sending" });
+    if (company.trim()) return;
+    setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -33,25 +30,52 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
         error?: string;
       };
       if (!res.ok || !data.ok) {
-        setStatus({ kind: "error", message: data.error ?? "Failed to send." });
+        setErrorMsg(data.error ?? "Failed to send.");
+        setStatus("error");
         return;
       }
-      setStatus({ kind: "success" });
+      setStatus("success");
       setName("");
       setEmail("");
       setMessage("");
     } catch {
-      setStatus({ kind: "error", message: "Network error. Please try again." });
+      setErrorMsg("Network error. Please try again.");
+      setStatus("error");
     }
   }
 
-  const disabled = !enabled || status.kind === "sending";
+  if (status === "success") {
+    return (
+      <div
+        style={{
+          padding: 40,
+          background: "var(--color-field, #bcc1b2)",
+          border: "1px solid var(--color-border-soft, #8b9280)",
+          borderRadius: 16,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
+        <h3 style={{ fontSize: 20, margin: "0 0 6px" }}>Message sent</h3>
+        <p style={{ color: "var(--color-text-muted, #363b31)", margin: 0, fontSize: 15 }}>
+          Thanks, I&apos;ll be in touch soon.
+        </p>
+      </div>
+    );
+  }
 
+  const labelStyle: CSSProperties = {
+    fontFamily: "var(--font-mono-stack)",
+    display: "flex",
+    flexDirection: "column",
+    gap: 7,
+    fontSize: 12,
+    color: "var(--color-text-muted, #363b31)",
+    letterSpacing: "0.04em",
+  };
   return (
-    <form onSubmit={onSubmit} className="mt-6 space-y-4">
-      {/* Honeypot. Visually hidden via sr-only + extra opt-outs for
-          assistive tech. Bots that fill every input will land here. */}
-      <div className="sr-only" aria-hidden="true">
+    <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div style={{ position: "absolute", left: -9999, opacity: 0 }} aria-hidden="true">
         <label htmlFor="contact-company">Company (leave this empty)</label>
         <input
           id="contact-company"
@@ -65,67 +89,83 @@ export default function ContactForm({ enabled }: { enabled: boolean }) {
       </div>
 
       {!enabled ? (
-        <p className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] p-3 text-xs text-[var(--color-text-muted)]">
-          Form is read-only in this environment. Set <code className="font-mono">MONGODB_URI</code>{" "}
-          to enable submissions, or email me directly above.
+        <p
+          className="mono"
+          style={{
+            margin: 0,
+            padding: 12,
+            borderRadius: "var(--radius-field)",
+            border: "1px solid var(--color-border-soft, #8b9280)",
+            background: "var(--color-field, #bcc1b2)",
+            fontSize: 12,
+            color: "var(--color-text-muted, #363b31)",
+          }}
+        >
+          Form is read-only here. Set MONGODB_URI to enable submissions, or email me directly above.
         </p>
       ) : null}
 
-      <div>
-        <label htmlFor="name" className="text-sm text-[var(--color-text-secondary)]">
-          Name
+      {/* auto-fit rather than a hard "1fr 1fr": the name/email pair has to
+          stack on a phone, and a fixed two-up pushed the second field past
+          the viewport edge, which scrolls the whole page sideways. */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(180px, 100%), 1fr))",
+          gap: 14,
+        }}
+      >
+        <label style={labelStyle}>
+          NAME
+          <input
+            type="text"
+            required
+            maxLength={120}
+            value={name}
+            disabled={disabled}
+            onChange={(e) => setName(e.target.value)}
+            className="field"
+          />
         </label>
-        <Input
-          id="name"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          disabled={disabled}
-          className="mt-2"
-          maxLength={120}
-        />
+        <label style={labelStyle}>
+          EMAIL
+          <input
+            type="email"
+            required
+            maxLength={254}
+            value={email}
+            disabled={disabled}
+            onChange={(e) => setEmail(e.target.value)}
+            className="field"
+          />
+        </label>
       </div>
 
-      <div>
-        <label htmlFor="email" className="text-sm text-[var(--color-text-secondary)]">
-          Email
-        </label>
-        <Input
-          id="email"
-          type="email"
+      <label style={labelStyle}>
+        MESSAGE
+        <textarea
           required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={disabled}
-          className="mt-2"
-          maxLength={254}
-        />
-      </div>
-
-      <div>
-        <label htmlFor="message" className="text-sm text-[var(--color-text-secondary)]">
-          Message
-        </label>
-        <Textarea
-          id="message"
-          required
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={disabled}
-          className="mt-2"
+          rows={5}
           maxLength={5000}
+          value={message}
+          disabled={disabled}
+          onChange={(e) => setMessage(e.target.value)}
+          className="field"
+          style={{ resize: "vertical" }}
         />
-      </div>
+      </label>
 
-      <div className="flex items-center gap-3">
-        <Button type="submit" disabled={disabled}>
-          {status.kind === "sending" ? "Sending…" : "Send message"}
-        </Button>
-        {status.kind === "success" ? (
-          <span className="text-sm text-[var(--color-accent)]">Message sent. Thanks!</span>
-        ) : null}
-        {status.kind === "error" ? (
-          <span className="text-sm text-red-600">{status.message}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+        <button
+          type="submit"
+          disabled={disabled}
+          className="btn btn-solid"
+          style={{ alignSelf: "flex-start", padding: "14px 26px" }}
+        >
+          {status === "sending" ? "Sending…" : "Send message →"}
+        </button>
+        {status === "error" ? (
+          <span style={{ fontSize: 13, color: "var(--color-danger, #a3221d)" }}>{errorMsg}</span>
         ) : null}
       </div>
     </form>

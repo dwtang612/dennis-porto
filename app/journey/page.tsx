@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import Avatar from "@/components/Avatar";
 
 export const metadata: Metadata = {
@@ -78,13 +77,6 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 export default function JourneyPage() {
   return (
     <>
-      <AnimatedArrowLink
-        href="/"
-        direction="backward"
-        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-      >
-        Back home
-      </AnimatedArrowLink>
 
       <h1 className="mt-8 text-4xl font-semibold tracking-tight sm:text-5xl">
         Journey
