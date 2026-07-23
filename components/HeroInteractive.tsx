@@ -1,12 +1,22 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { BlackHole } from "@/components/BlackHole";
 import { SplitText } from "@/components/SplitText";
 
 export function HeroInteractive() {
-  const [on, setOn] = useState(false);
+  // One motion switch for the whole page, not just the black hole. Defaults
+  // on, so first paint keeps the route transition it has always had; the
+  // class is only ever *added* to turn motion off, which means the server
+  // markup and the first client render agree and nothing flashes.
+  const [on, setOn] = useState(true);
   const toggle = () => setOn((v) => !v);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle("motion-off", !on);
+    return () => root.classList.remove("motion-off");
+  }, [on]);
 
   const toggleBtn: CSSProperties = {
     marginTop: 18,
@@ -66,8 +76,13 @@ export function HeroInteractive() {
             </span>
           </h1>
 
-          <button onClick={toggle} style={toggleBtn}>
-            {on ? "black hole active · click to dismiss" : "summon a black hole"}
+          <button
+            onClick={toggle}
+            style={toggleBtn}
+            aria-pressed={!on}
+            title={on ? "Turn page animation off" : "Turn page animation on"}
+          >
+            {on ? "no animation" : "animation"}
           </button>
 
           <p

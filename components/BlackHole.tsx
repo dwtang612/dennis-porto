@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 // Full-viewport ambient black hole with a computer-vision tracking HUD,
@@ -14,14 +14,34 @@ import { createPortal } from "react-dom";
 //   - lightens every piece of text it passes over so nothing is lost in the
 //     dark, excluding text on its own opaque background (cards, pills,
 //     fields, the nav) since those hide the hole anyway
+// useLayoutEffect warns when it runs on the server, and this component is now
+// rendered during SSR because the motion switch defaults to on. On the server
+// there is nothing to lay out, so fall back to useEffect there; the client
+// still gets the layout timing the colour restore depends on.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+// Hydration-safe "are we on the client yet" check. A bare
+// `typeof document === "undefined"` guard renders null on the server and the
+// portal on the client's *first* render, which is a hydration mismatch. This
+// reports false until hydration finishes, so both trees agree, then flips.
+const subscribeNoop = () => () => {};
+const useIsClient = () =>
+  useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  );
+
 export function BlackHole() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const isClient = useIsClient();
   // useLayoutEffect, not useEffect: the cleanup restores every colour this
   // canvas wrote. Passive effect cleanup runs *after* React has removed the
   // canvas and the browser has painted, so for one frame the pocket was gone
   // while the text under it was still white, which read as a white flash.
   // A layout effect's cleanup runs before that paint.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -406,7 +426,7 @@ export function BlackHole() {
       });
       touched.clear();
     };
-  }, []);
+  }, [isClient]);
 
   // Portalled to <body> so `position: fixed` resolves against the viewport.
   // Rendered in place it resolves against .route-fade-in instead (that element
@@ -414,9 +434,7 @@ export function BlackHole() {
   // and left it in a different coordinate space from the
   // getBoundingClientRect() calls that drive the text lightening.
   //
-  // Only ever mounted from a click, so document is always present; the guard
-  // is belt-and-braces against a server render.
-  if (typeof document === "undefined") return null;
+  if (!isClient) return null;
 
   return createPortal(
     <canvas
