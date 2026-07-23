@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { AnimatedArrow } from "@/components/AnimatedArrow";
 import { projects } from "@/data/projects";
 import { getProjectCover } from "@/lib/project_assets";
@@ -9,13 +8,6 @@ import { getProjectCover } from "@/lib/project_assets";
 export default function ProjectsPage() {
   return (
     <>
-      <AnimatedArrowLink
-        href="/"
-        direction="backward"
-        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-      >
-        Back home
-      </AnimatedArrowLink>
       <h1 className="mt-8 text-3xl font-semibold tracking-tight">Projects</h1>
       <p className="mt-4 max-w-xl text-[var(--color-text-secondary)]">
         Each entry is a short case study covering the problem, the approach, the stack,

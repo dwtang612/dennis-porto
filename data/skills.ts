@@ -1,8 +1,7 @@
-import type { TechIcon } from "@/components/TechCard";
-
 export type HomeTech = {
   name: string;
-  icon: TechIcon;
+  // one-line description shown in the interactive tech detail line
+  blurb: string;
 };
 
 export type HomeTechGroup = {
@@ -10,29 +9,28 @@ export type HomeTechGroup = {
   items: HomeTech[];
 };
 
-// Logos in public/icons/: devicon SVGs except AWS (Wikimedia Commons).
 export const homeTechGroups: HomeTechGroup[] = [
   {
     label: "Full Stack Development",
     items: [
-      { name: "TypeScript", icon: { src: "/icons/typescript.svg", alt: "TypeScript" } },
-      { name: "Next.js", icon: { src: "/icons/nextjs.svg", alt: "Next.js" } },
-      { name: "Tailwind CSS", icon: { src: "/icons/tailwindcss.svg", alt: "Tailwind CSS" } },
-      { name: "Playwright", icon: { src: "/icons/playwright.svg", alt: "Playwright" } },
-      { name: "PostgreSQL", icon: { src: "/icons/postgresql.svg", alt: "PostgreSQL" } },
-      { name: "MongoDB", icon: { src: "/icons/mongodb.svg", alt: "MongoDB" } },
-      { name: "AWS", icon: { src: "/icons/aws.svg", alt: "AWS" } },
-      { name: "GitHub Actions", icon: { src: "/icons/githubactions.svg", alt: "GitHub Actions" } },
+      { name: "TypeScript", blurb: "A typed superset of JavaScript that catches bugs before they ever reach production." },
+      { name: "Next.js", blurb: "The React framework for fast, server-rendered, production-grade web apps." },
+      { name: "Tailwind CSS", blurb: "A utility-first CSS framework for building interfaces without leaving your markup." },
+      { name: "Playwright", blurb: "A modern framework for fast, reliable end-to-end browser testing." },
+      { name: "PostgreSQL", blurb: "A powerful open-source relational database trusted for serious workloads." },
+      { name: "MongoDB", blurb: "A flexible NoSQL document database built for evolving data models." },
+      { name: "AWS", blurb: "Amazon's cloud platform for hosting, storage, and compute at any scale." },
+      { name: "GitHub Actions", blurb: "Automation and CI/CD pipelines built directly into GitHub." },
     ],
   },
   {
     label: "AI & Computer Vision",
     items: [
-      { name: "Python", icon: { src: "/icons/python.svg", alt: "Python" } },
-      { name: "PyTorch", icon: { src: "/icons/pytorch.svg", alt: "PyTorch" } },
-      { name: "OpenCV", icon: { src: "/icons/opencv.svg", alt: "OpenCV" } },
-      { name: "NumPy", icon: { src: "/icons/numpy.svg", alt: "NumPy" } },
-      { name: "Linux", icon: { src: "/icons/linux.svg", alt: "Linux" } },
+      { name: "Python", blurb: "A versatile, readable language that dominates data science and machine learning." },
+      { name: "PyTorch", blurb: "A deep-learning framework for building and training neural networks." },
+      { name: "OpenCV", blurb: "The go-to open-source library for computer vision and image processing." },
+      { name: "NumPy", blurb: "The numerical backbone of scientific computing in Python." },
+      { name: "Linux", blurb: "The open-source operating system that powers most servers and dev environments." },
     ],
   },
 ];

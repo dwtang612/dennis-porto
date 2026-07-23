@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#1a1612"/>
+  <rect width="32" height="32" rx="6" fill="#171a15"/>
   <text
     x="16"
     y="22"
@@ -7,7 +7,7 @@
     font-family="system-ui, -apple-system, sans-serif"
     font-weight="700"
     font-size="16"
-    fill="#e2ddc9"
+    fill="#bcc1b2"
     letter-spacing="-0.5"
   >DT</text>
 </svg>

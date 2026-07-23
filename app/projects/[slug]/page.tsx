@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AnimatedArrowLink } from "@/components/AnimatedArrowLink";
 import { projects } from "@/data/projects";
 import { getProjectImages } from "@/lib/project_assets";
 
@@ -45,13 +44,6 @@ export default async function ProjectDetailPage(
 
   return (
     <>
-      <AnimatedArrowLink
-        href="/projects"
-        direction="backward"
-        className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
-      >
-        Back to projects
-      </AnimatedArrowLink>
 
       {cover ? (
         <div className="mt-8 mx-auto max-w-3xl overflow-hidden rounded-2xl border border-[var(--color-border)]">

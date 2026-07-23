@@ -1,27 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
 :root {
-  /* Newsprint palette. */
-  --color-base: #e2ddc9;
-  --color-surface: #d8d2bd;
-  --color-card: #e2ddc9;
-  --color-border: #c2bba3;
-  --color-text-primary: #1a1612;
-  --color-text-secondary: #4a4032;
-  --color-text-muted: #6e6452;
-  --color-accent: #1e3a8a;
-  --color-accent-hover: #1e40af;
-  --color-accent-subtle: #cdc6ae;
+  /* Sage-olive + oxblood. Deliberately away from the original warm
+     stone/coral pairing, which read as Anthropic's palette: warm neutral
+     plus terracotta is a very recognisable combination. Green in the ground
+     and a deep red-brown accent break it while staying earthy rather than
+     cold.
 
-  /* Page color at 55% opacity, used by home-page floating blocks. */
-  --color-base-translucent: color-mix(in oklab, var(--color-base) 55%, transparent);
+     Base luminance is held at ~0.39, matching every palette this page has
+     worn, so the contrast ratios below carry over intact: body text at
+     roughly 7.5:1 and the muted tones above 4.5:1. */
+  --color-base: #a8ae9c;
+  --color-surface: #b8bdad;
+  --color-card: #9aa08e;
+  --color-field: #bcc1b2;
+
+  --color-border: #7f8674;
+  --color-border-soft: #8b9280;
+  --color-border-dashed: #868d7b;
+  --color-border-hover: #6e7565;
+
+  --color-text-primary: #171a15;
+  --color-text-secondary: #2a2e26;
+  --color-text-muted: #363b31;
+  --color-text-subtle: #414738;
+  --color-text-faint: #4e553f;
+  --color-on-dark: #f1f2ec;
+
+  --color-accent: #7b2d26;
+  --color-accent-hover: #5c1f1a;
+  --color-accent-subtle: #bcc0b0;
+  --color-danger: #a3221d;
+
+  /* Declared here as well as in @theme: `@theme inline` bakes its values
+     into utilities rather than emitting a custom property, so var(--font-mono)
+     does not resolve at runtime. Six files each declared this stack as a
+     local `const mono` before. */
+  --font-mono-stack: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Vertical rhythm. These clamps were repeated as inline literals across
+     page.tsx, TechPills and HeroInteractive; one definition keeps the
+     sections in step. */
+  --space-section: clamp(28px, 5vw, 40px);
+  --space-section-lg: clamp(36px, 7vw, 56px);
+  --space-section-xl: clamp(40px, 8vw, 64px);
+
+  --radius-field: 10px;
+  --radius-card: 16px;
 }
 
 @theme inline {
   --color-background: var(--color-base);
   --color-foreground: var(--color-text-primary);
-  --font-sans: var(--font-inter-tight);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 html,
@@ -31,46 +64,181 @@ body {
 }
 
 body {
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: "Space Grotesk", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background-color: var(--color-accent-subtle);
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------
+   Shared homepage primitives. These were inline style objects duplicated
+   across page.tsx, HeroInteractive, TechPills, ContactForm and site_nav,
+   which is why the palette change needed 64 edits across six files.
+   --------------------------------------------------------------------- */
+
+.mono {
+  font-family: var(--font-mono-stack);
+}
+
+/* Sticky bar. The ::before is a backdrop only as tall as the nav itself,
+   replacing the old 120px page-wide top fade: that fade sat at z-5 over the
+   BlackHole canvas at z-0 and sheared the top off the hole. This masks the
+   content scrolling underneath while occluding far less. */
+/* The bar spans the full width so its backdrop does too; only the contents
+   are constrained. Putting the max-width on the bar itself left the backdrop
+   ending at 1024px, a hard vertical edge with the black hole visible beside
+   it. Width comes from the block layout, not 100vw, so the scrollbar cannot
+   push the page sideways. */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.site-nav::before {
+  content: "";
+  position: absolute;
+  /* Runs a full viewport height above the bar. Rubber-band overscroll drags
+     the page down past its own top edge, and a backdrop that stopped at the
+     bar would expose a hard colour seam at that moment. */
+  top: -100vh;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background-color: var(--color-base);
+  opacity: 0.5;
+  /* Masked rather than gradient-filled: the fade then stays pinned to the
+     last 26px regardless of how tall the box is, so extending upward does
+     not stretch it. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 calc(100% - 26px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent 100%);
+}
+.site-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 64rem;
+  /* Owns both axes rather than leaning on a px-6 utility: this rule is
+     emitted after Tailwind's, so a `padding: X 0` shorthand silently zeroed
+     the horizontal padding and jammed the brand against the viewport edge.
+     Keep 1.5rem in step with <main>'s px-6 in layout.tsx. */
+  padding-block: clamp(14px, 2.5vw, 22px);
+  padding-inline: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border-radius: var(--radius-field);
+  font-family: var(--font-mono-stack);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn-solid {
+  background: var(--color-text-primary);
+  color: var(--color-on-dark);
+  border: none;
+}
+.btn-ghost {
+  background: transparent;
   color: var(--color-text-primary);
+  border: 1px solid var(--color-border-soft);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
-/* Scroll-driven hero fade. Chrome/Edge/Safari 17.4+. Firefox keeps
-   hero opaque (graceful degradation; sections cover it anyway). */
-@keyframes hero-fade-on-scroll {
-  to {
-    opacity: 0;
-  }
+/* :focus in CSS rather than onFocus/onBlur handlers mutating inline style. */
+.field {
+  padding: 13px 14px;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-field);
+  background: var(--color-field);
+  font-size: 15px;
+  color: var(--color-text-primary);
+  font-family: inherit;
+  outline: none;
+}
+.field:focus {
+  border-color: var(--color-accent);
 }
 
-.hero-fade-on-scroll {
-  animation: hero-fade-on-scroll linear both;
-  animation-timeline: scroll();
-  animation-range: 0 60vh;
+.card {
+  display: block;
+  padding: clamp(18px, 3vw, 26px);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  color: var(--color-text-primary);
+  transition: background 0.5s ease, border-color 0.5s ease;
 }
 
-/* Subtle leftward nudge for affordance arrows pointing at an element
-   from the right side. Tailwind's animate-bounce is vertical only. */
-@keyframes nudge-left {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-3px);
-  }
+.eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.eyebrow-num {
+  font-family: var(--font-mono-stack);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+.eyebrow-label {
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: clamp(13px, 1.4vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
-.animate-nudge-left {
-  animation: nudge-left 1.2s ease-in-out infinite;
+/* Pill state via data-on instead of two JS mouse handlers per pill. */
+.bh-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-field);
+  color: var(--color-text-subtle);
+  font-family: var(--font-mono-stack);
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.5s ease, background 0.5s ease, color 0.5s ease;
+}
+.bh-pill:hover {
+  border-color: var(--color-border-hover);
+}
+.bh-pill[data-on="true"] {
+  background: var(--color-text-primary);
+  border-color: var(--color-text-primary);
+  color: var(--color-on-dark);
 }
 
-/* Per-navigation fade-in via app/template.tsx. */
+/* Word spans that the BlackHole canvas lightens as it passes over them.
+   No transition here: the canvas writes color every frame, so a CSS
+   transition would fight it. */
+.bh-word {
+  color: inherit;
+}
+
+/* --- preserved from the original site --- */
 @keyframes route-fade-in {
   from {
     opacity: 0;
@@ -81,9 +249,39 @@ body {
     transform: scale(1);
   }
 }
-
 .route-fade-in {
   animation: route-fade-in 750ms ease-out both;
-  /* Top-anchored so sticky descendants keep their viewport anchor. */
   transform-origin: center top;
+}
+
+@keyframes floatY {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Tech pills float only while the black hole is active. The per-pill
+   animation-delay is set inline so they stagger. */
+body.bh-active .bh-pill {
+  animation-name: floatY;
+  animation-duration: 2.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bhWave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(18deg);
+  }
+  75% {
+    transform: rotate(-8deg);
+  }
 }
