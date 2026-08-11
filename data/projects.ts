@@ -1,4 +1,4 @@
-export type ProjectStatus = "shipped" | "case-study-in-progress";
+export type ProjectStatus = "shipped" | "case-study-in-progress" | "in-progress";
 
 export type Project = {
   slug: string;
@@ -18,6 +18,25 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "simulation-test-harness",
+    title: "Simulation-Based Test Harness",
+    role: "Personal project",
+    year: "2026",
+    tagline:
+      "ROS 2 + Gazebo simulation environment, containerized in Docker so simulated robots can be driven by automated test suites reproducibly. Extending it to run in CI, with Raspberry Pi 5 hardware-in-the-loop execution as the next stage.",
+    summary:
+      "A ROS 2 and Gazebo simulation environment, containerized in Docker so simulated robots can be driven by automated test suites reproducibly. Being extended to run in CI, with Raspberry Pi 5 hardware-in-the-loop execution as the next stage.",
+    stack: ["ROS 2", "Gazebo", "Docker", "C++", "Python"],
+    highlights: [
+      "ROS 2 + Gazebo simulation environment for driving simulated robots under test.",
+      "Containerized in Docker so test runs are reproducible across machines.",
+      "Simulated robots are driven by automated test suites rather than by hand.",
+      "Next stages: running the harness in CI, then Raspberry Pi 5 hardware-in-the-loop execution.",
+    ],
+    status: "in-progress",
+    links: {},
+  },
   {
     slug: "personal-portfolio",
     title: "Personal Portfolio",
@@ -44,7 +63,7 @@ export const projects: Project[] = [
     title: "Blackjack Counter",
     role: "Personal project",
     year: "2026",
-    tagline: "Tkinter + CLI Python game, 182 tests",
+    tagline: "Tkinter + CLI Python game with 182 automated tests: coverage-driven design, deterministic shoe simulation for repeatable test runs",
     summary:
       "A desktop Blackjack game in Python with a Tkinter GUI and a parallel CLI front-end, both driven by the same state-machine core. Built as a focused refresher on Python fundamentals with strict separation between game logic and presentation.",
     stack: ["Python", "Tkinter", "pytest", "uv", "ruff"],

@@ -120,6 +120,10 @@ export function HeroInteractive() {
           >
             <SplitText>{"I write "}</SplitText>
             <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
+              <SplitText>{"Python"}</SplitText>
+            </strong>
+            <SplitText>{" and "}</SplitText>
+            <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
               <SplitText>{"TypeScript"}</SplitText>
             </strong>
             <SplitText>{" at "}</SplitText>
@@ -127,17 +131,33 @@ export function HeroInteractive() {
               <SplitText>{"OPTRO"}</SplitText>
             </strong>
             <SplitText>
-              {", building the test automation that keeps our frontend and backend services honest. I'm a growing "}
+              {", building the automated verification that keeps our backend and frontend services honest, containerized with "}
             </SplitText>
             <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
-              <SplitText>{"fullstack engineer"}</SplitText>
+              <SplitText>{"Docker"}</SplitText>
             </strong>
-            <SplitText>{" with "}</SplitText>
+            <SplitText>{" and "}</SplitText>
+            <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
+              <SplitText>{"Kubernetes"}</SplitText>
+            </strong>
+            <SplitText>{", wired into "}</SplitText>
+            <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
+              <SplitText>{"GitHub Actions"}</SplitText>
+            </strong>
+            <SplitText>
+              {" so problems surface before they ship. Outside of that I build "}
+            </SplitText>
+            <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
+              <SplitText>{"fullstack"}</SplitText>
+            </strong>
+            <SplitText>
+              {" apps end to end, and I'm working toward "}
+            </SplitText>
             <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
               <SplitText>{"AI and robotics"}</SplitText>
             </strong>
             <SplitText>
-              {" as the longer goal, which is why I'm chipping away at an MS in Computational Perception & Robotics at "}
+              {" through an MS in Computational Perception & Robotics at "}
             </SplitText>
             <strong style={{ fontWeight: 600, color: "var(--color-text-primary, #171a15)" }}>
               <SplitText>{"Georgia Tech"}</SplitText>

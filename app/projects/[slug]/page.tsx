@@ -66,6 +66,9 @@ export default async function ProjectDetailPage(
         {project.status === "case-study-in-progress" ? (
           <Badge variant="accent">Case study in progress</Badge>
         ) : null}
+        {project.status === "in-progress" ? (
+          <Badge variant="accent">In progress</Badge>
+        ) : null}
       </div>
 
       <h1 className="mt-3 text-3xl font-semibold tracking-tight">{project.title}</h1>
@@ -146,27 +149,31 @@ export default async function ProjectDetailPage(
         </>
       ) : null}
 
-      <SectionDivider />
+      {project.links.github || project.links.live ? (
+        <>
+          <SectionDivider />
 
-      <section>
-        <h2 className="text-lg font-semibold">Links</h2>
-        <div className="mt-3 flex flex-wrap gap-3">
-          {project.links.github ? (
-            <Button asChild variant="secondary">
-              <a href={project.links.github} target="_blank" rel="noreferrer">
-                GitHub
-              </a>
-            </Button>
-          ) : null}
-          {project.links.live ? (
-            <Button asChild>
-              <a href={project.links.live} target="_blank" rel="noreferrer">
-                Live demo
-              </a>
-            </Button>
-          ) : null}
-        </div>
-      </section>
+          <section>
+            <h2 className="text-lg font-semibold">Links</h2>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {project.links.github ? (
+                <Button asChild variant="secondary">
+                  <a href={project.links.github} target="_blank" rel="noreferrer">
+                    GitHub
+                  </a>
+                </Button>
+              ) : null}
+              {project.links.live ? (
+                <Button asChild>
+                  <a href={project.links.live} target="_blank" rel="noreferrer">
+                    Live demo
+                  </a>
+                </Button>
+              ) : null}
+            </div>
+          </section>
+        </>
+      ) : null}
     </>
   );
 }

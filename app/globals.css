@@ -230,6 +230,11 @@ body {
   border-color: var(--color-text-primary);
   color: var(--color-on-dark);
 }
+/* Learning group reads as provisional: a dashed outline sets it apart from
+   the solid working-skills pills without a second colour. */
+.bh-pill[data-learning="true"]:not([data-on="true"]) {
+  border-style: dashed;
+}
 
 /* Word spans that the BlackHole canvas lightens as it passes over them.
    No transition here: the canvas writes color every frame, so a CSS

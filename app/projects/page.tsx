@@ -58,6 +58,9 @@ export default function ProjectsPage() {
                     {p.status === "case-study-in-progress" ? (
                       <Badge variant="accent">Case study in progress</Badge>
                     ) : null}
+                    {p.status === "in-progress" ? (
+                      <Badge variant="accent">In progress</Badge>
+                    ) : null}
                   </div>
                   <p className="mt-1 pl-6 text-xs uppercase tracking-wide text-[var(--color-text-muted)]">
                     {p.role}

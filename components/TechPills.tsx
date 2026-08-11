@@ -26,6 +26,18 @@ export function TechPills() {
           >
             {group.label}
           </h3>
+          {group.variant === "learning" ? (
+            <p
+              className="mono"
+              style={{
+                margin: "-8px 0 16px",
+                fontSize: 12,
+                color: "var(--color-text-faint, #4e553f)",
+              }}
+            >
+              Actively learning, not yet production experience.
+            </p>
+          ) : null}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {group.items.map((t) => {
               const isOn = sel === t.name;
@@ -36,6 +48,7 @@ export function TechPills() {
                   type="button"
                   className="bh-pill"
                   data-on={isOn}
+                  data-learning={group.variant === "learning" ? "true" : undefined}
                   onClick={() => setSel((s) => (s === t.name ? null : t.name))}
                   style={{ animationDelay: `${delay}s` }}
                 >
@@ -50,6 +63,18 @@ export function TechPills() {
                     }}
                   />
                   {t.name}
+                  {t.note ? (
+                    <em
+                      style={{
+                        fontStyle: "normal",
+                        fontSize: 11,
+                        opacity: 0.7,
+                        marginLeft: 2,
+                      }}
+                    >
+                      · {t.note}
+                    </em>
+                  ) : null}
                 </button>
               );
             })}
@@ -64,7 +89,7 @@ export function TechPills() {
         {active ? (
           <p style={{ margin: 0, color: "var(--color-text-primary, #171a15)" }}>
             <strong style={{ color: "var(--color-accent, #7b2d26)", fontWeight: 500 }}>
-              <SplitText>{active.name + " \u2014"}</SplitText>
+              <SplitText>{active.name + " \u2013"}</SplitText>
             </strong>{" "}
             <SplitText>{active.blurb}</SplitText>
           </p>
