@@ -4,9 +4,9 @@ import { SOCIAL_LINKS } from "@/components/Socials";
 import { SiteNav } from "@/components/site_nav";
 
 export const metadata: Metadata = {
-  title: "Dennis Tang, Fullstack Engineer",
+  title: "Dennis Tang – Software Engineer",
   description:
-    "Fullstack engineer with a background in test automation, CI/CD, and backend reliability. Currently pursuing an MS in Computer Science at Georgia Tech.",
+    "Software engineer working across backend services, test automation, CI/CD, and fullstack web apps. Currently pursuing an MS in Computational Perception & Robotics at Georgia Tech.",
 };
 
 export default function RootLayout({

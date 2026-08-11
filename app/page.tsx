@@ -69,16 +69,33 @@ export default function HomePage() {
                   marginBottom: "clamp(24px, 5vw, 44px)",
                 }}
               >
-                <span
-                  className="mono"
-                  style={{
-                    fontSize: 12,
-                    color: "var(--color-text-subtle, #414738)",
-                    letterSpacing: "0.06em",
-                  }}
-                >
-                  {p.year}
-                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span
+                    className="mono"
+                    style={{
+                      fontSize: 12,
+                      color: "var(--color-text-subtle, #414738)",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
+                    {p.year}
+                  </span>
+                  {p.status === "in-progress" ? (
+                    <span
+                      className="mono"
+                      style={{
+                        fontSize: 11,
+                        padding: "2px 8px",
+                        borderRadius: 999,
+                        color: "var(--color-on-dark, #f1f2ec)",
+                        background: "var(--color-accent, #7b2d26)",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      In progress
+                    </span>
+                  ) : null}
+                </div>
                 <span style={{ fontSize: 20 }}>↗</span>
               </div>
               <h3
@@ -135,7 +152,7 @@ export default function HomePage() {
               }}
             >
               <SplitText>
-                {"Recruiting for a fullstack or AI role? I'd love to hear about it. Drop a note and I'll get back to you fast."}
+                {"Recruiting for a software engineering role? I'd love to hear about it. Drop a note and I'll get back to you fast."}
               </SplitText>
             </p>
           </div>
