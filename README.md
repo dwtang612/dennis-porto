@@ -105,19 +105,6 @@ everything else (Home, Journey, Projects, the experiments) is static.
 For design rationale, physics constants, animation systems, and other
 non-obvious decisions, see [DESIGN_NOTES.md](./DESIGN_NOTES.md).
 
-## Built with help from
-
-A meaningful portion of this codebase was refactored and iterated with
-Claude (Anthropic) as a pair programmer. The architectural choices,
-the visual language, the content of the bio and case studies, and the
-final shape of every decision are mine. The AI accelerated the work,
-particularly the black hole's motion and text-lightening maths, the
-CV-tracking flourish, the comment cleanup pass, and a lot of small
-refactors, but
-the judgment calls about what to build and what to throw away stayed
-with me. I'd rather note that openly here than have it be a question
-in an interview.
-
 ## License
 
 MIT, see [LICENSE](LICENSE).
